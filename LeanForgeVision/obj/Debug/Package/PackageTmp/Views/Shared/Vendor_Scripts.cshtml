@@ -1,0 +1,211 @@
+﻿
+<button type="button" class="fixed z-50 px-4 text-white border-gray-200 shadow-lg h-11 ltr:right-0 rtl:left-0 bg-purple ltr:rounded-l-md rtl:rounded-r-md top-1/3" @@click="$store.app.direction = ($store.app.direction === 'ltr') ? 'rtl' : 'ltr'"><span class="rtl:hidden">RTL</span> <span class="ltr:hidden">LTR</span></button>
+
+<script src="~/assets/libs/@("@")alpinejs/persist/cdn.min.js"></script>
+<script src="~/assets/libs/@("@")alpinejs/collapse/cdn.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<script>
+    var fetchTodayPlanTotalsUrl = '@Url.Action("GetTodayPlanTotals", "Shipping")';
+    var fetchTodayToySortedTotalUrl = '@Url.Action("GetTotalToySortedToday", "Shipping")';
+    var fetchTodayPlanAndSortedTotalsUrl = '@Url.Action("GetTodayPlanAndSortedTotals", "Shipping")';
+    var fetchpercentageTotalOrdersPlannedYesterdayAndTodayUrl = '@Url.Action("GetYesterdayAndTodayPlanTotalsJson", "Shipping")';
+    var fetchpercentageTotalToySortedYesterdayAndTodayUrl = '@Url.Action("GetYesterdayAndTodayTotalSortedJson", "Shipping")';
+    var fetchTodayActiveGateUrl = '@Url.Action("GetTotalGateStatus5", "Gate")';
+    var fetchPercentageTotalActiveGateYesterdayToday = '@Url.Action("GetActiveGateCounts", "Gate")';
+
+
+    $(document).ready(function () {
+        fetchTodayPlanAndSortedTotals();
+        fetchYesterdayAndTodayToySortedTotals();
+        fetchYesterdayAndTodayPlanTotals();
+        fetchTotalActiveGate();
+        fetchPercentageTotalGateActiveYesterdayAndToday();
+    });
+
+    function fetchTodayPlanAndSortedTotals() {
+        $.ajax({
+            url: fetchTodayPlanAndSortedTotalsUrl, // URL to fetch today's plan and sorted totals
+            type: 'GET',
+            dataType: 'json',
+            success: function (response) {
+                if (response) {
+                    $('#totalOrdersPlanned').text(response.planned ?? '0');
+                    $('#totalOrdersProcessed').text(response.sorted ?? '0');
+                    $('#totalOrdersPending').text(response.pending ?? '0');
+                } else {
+                    $('#totalOrdersPlanned').text('0');
+                    $('#totalOrdersProcessed').text('0');
+                    $('#totalOrdersPending').text('0');
+                }
+            },
+            error: function (xhr, status, error) {
+                console.error('Error fetching plan and sorted totals:', error);
+                $('#totalOrdersPlanned').text('0');
+                $('#totalOrdersProcessed').text('0');
+                $('#totalOrdersPending').text('0');
+            }
+        });
+    }
+
+    function fetchYesterdayAndTodayTotals() {
+        // Gunakan Promise.all untuk mengeksekusi kedua request secara bersamaan
+        Promise.all([fetchYesterdayAndTodayPlanTotals(), fetchYesterdayAndTodayToySortedTotals()])
+            .then(results => {
+                // Bila kedua permintaan berhasil
+                console.log('Plan and Toy Sorted totals fetched successfully');
+            })
+            .catch(error => {
+                // Bila salah satu permintaan gagal
+                console.error('Error fetching data:', error);
+                resetDisplay();
+            });
+    }
+
+    function fetchYesterdayAndTodayPlanTotals() {
+        return new Promise((resolve, reject) => {
+            $.ajax({
+                url: fetchpercentageTotalOrdersPlannedYesterdayAndTodayUrl,
+                type: 'GET',
+                dataType: 'json',
+                success: function (response) {
+                    console.log(response);
+                    if (response.success) {
+                        const percentageChange = response.percentageChange;
+                        const changeDirection = response.changeDirection;
+
+                        updatePercentageDisplay('#percentageTotalOrdersPlannedYesterdayAndToday', percentageChange);
+                        updateBackgroundColor('#percentageTotalOrdersPlannedYesterdayAndToday', changeDirection);
+                        resolve();  // Resolve promise when the data is processed
+                    } else {
+                        console.log('No data found or error in response');
+                        resetDisplay();
+                        reject('No data or error in response');
+                    }
+                },
+                error: function (xhr, status, error) {
+                    console.error('Error fetching the plan totals:', error);
+                    resetDisplay();
+                    reject(error);
+                }
+            });
+        });
+    }
+
+    function fetchYesterdayAndTodayToySortedTotals() {
+        return new Promise((resolve, reject) => {
+            $.ajax({
+                url: fetchpercentageTotalToySortedYesterdayAndTodayUrl, // Adjust URL accordingly
+                type: 'GET',
+                dataType: 'json',
+                success: function (response) {
+                    console.log(response);
+                    if (response.success) {
+                        const percentageChange = response.percentageChange;
+                        const changeDirection = response.changeDirection;
+
+                        updatePercentageDisplay('#percentageTotalToySortedYesterdayAndToday', percentageChange);
+                        updateBackgroundColor('#percentageTotalToySortedYesterdayAndToday', changeDirection);
+                        resolve();  // Resolve promise when the data is processed
+                    } else {
+                        console.log('No data found or error in response');
+                        resetDisplay();
+                        reject('No data or error in response');
+                    }
+                },
+                error: function (xhr, status, error) {
+                    console.error('Error fetching the toy sorted totals:', error);
+                    resetDisplay();
+                    reject(error);
+                }
+            });
+        });
+    }
+
+    function fetchTotalActiveGate() {
+        $.ajax({
+            url: fetchTodayActiveGateUrl,
+            type: "GET",
+            dataType: "json",
+            success: function (response) {
+                if (response && response.TotalGateStatus5 !== undefined) {
+                    $("#totalActiveGate").text(response.TotalGateStatus5);
+                } else {
+                    $("#totalActiveGate").text("0");
+                }
+            },
+            error: function () {
+                $("#totalActiveGate").text("Error");
+            }
+        });
+    }
+
+    function fetchPercentageTotalGateActiveYesterdayAndToday() {
+        $.ajax({
+            url: fetchPercentageTotalActiveGateYesterdayToday,
+            type: 'GET',
+            dataType: 'json',
+            success: function (data) {
+                if (data) {
+                    // Update percentage text
+                    updatePercentageDisplay('#percentageTotalGateActiveYesterdayAndToday', data.PendingDifferencePercentage);
+
+                    // Tentukan arah perubahan
+                    let changeDirection = "No Change";
+                    if (data.PendingStatus === "Increase") {
+                        changeDirection = "Increased";
+                    } else if (data.PendingStatus === "Decrease") {
+                        changeDirection = "Decreased";
+                    }
+
+                    // Update background color
+                    updateBackgroundColor('#percentageTotalGateActiveYesterdayAndToday', changeDirection);
+                }
+            },
+            error: function (xhr, status, error) {
+                console.error('Error fetching active gate counts:', error);
+            }
+        });
+    }
+
+    function updatePercentageDisplay(elementId, percentageChange) {
+        const percentageText = Math.round(percentageChange) + '%';
+        $(elementId)
+            .text(percentageText)
+            .css('font-weight', 'bold');
+    }
+
+    function updateBackgroundColor(elementId, changeDirection) {
+        // Remove any existing color classes
+        $(elementId)
+            .removeClass('bg-info/20 text-info bg-success/20 text-success bg-danger/20 text-danger');
+
+        // Map the change direction to corresponding background and text color
+        const colorMap = {
+            'Increased': 'bg-success/20 text-success',
+            'Decreased': 'bg-danger/20 text-danger',
+            'No Change': 'bg-info/20 text-info'
+        };
+
+        // Apply the appropriate color class if available
+        if (colorMap[changeDirection]) {
+            $(elementId).addClass(colorMap[changeDirection]);
+        }
+    }
+
+    function resetDisplay() {
+        // Reset all displays
+        $('#percentageTotalOrdersPlannedYesterdayAndToday, #percentageTotalToySortedYesterdayAndToday')
+            .text('0%')
+            .removeClass('bg-success/20 text-success bg-danger/20 text-danger bg-info/20 text-info');
+    }
+
+
+
+
+
+
+
+
+
+</script>

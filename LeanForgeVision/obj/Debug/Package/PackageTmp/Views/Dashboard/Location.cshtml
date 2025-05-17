@@ -1,0 +1,699 @@
+﻿
+@{
+    ViewBag.Title = "LeanForge Vision";
+    ViewBag.pTitle = "Location Monitoring";
+    ViewBag.xData = "dashboard";
+    ViewBag.ActiveItem = "location";
+    Layout = null;
+    var imageUrl = Url.Content("~/assets/images/bg-main.png");
+}
+
+<!DOCTYPE html>
+<html lang="en" :dir="$store.app.direction" x-data="{ direction: $store.app.direction }" x-bind:dir="direction" class="group/item" :data-mode="$store.app.mode" :data-sidebar="$store.app.sidebarMode">
+
+<head>
+    @Html.Partial("~/Views/Shared/title_meta.cshtml")
+
+
+    @Html.Partial("~/Views/Shared/head_css.cshtml")
+
+</head>
+
+<body x-data="main" x-init="$store.app.hasCreative = window.location.href.includes('creative.html') ,
+$store.app.hasdetached = window.location.href.includes('detached.html')" :class="[ $store.app.sidebar ?
+'toggle-sidebar' : '', $store.app.fullscreen ? 'full' : '' , $store.app.hasCreative ? 'detached ' : '' ,
+ $store.app.hasdetached ? 'detached detached-simple ' : '' , $store.app.layout  ]"
+      class="relative overflow-x-hidden text-sm antialiased font-normal text-black font-cerebri dark:text-white vertical  " x-data="modals">
+
+
+    <!-- Start Layout -->
+    <div class="bg-[#f9fbfd] dark:bg-dark">
+
+        <!-- Start detached bg -->
+        <div style="background-image: url('@imageUrl');" class="bg-black min-h-[220px] sm:min-h-[250px] bg-bottom fixed hidden w-full -z-50 detached-img"></div>
+
+        <!-- End detached bg -->
+        <!-- Start Menu Sidebar Olverlay -->
+        <div x-cloak class="fixed inset-0 bg-black/60 dark:bg-dark/90 z-10 lg:hidden" :class="{'hidden' : !$store.app.sidebar}" @@click="$store.app.toggleSidebar()"></div>
+        <!-- End Menu Sidebar Olverlay -->
+        <!-- Start Main Content -->
+        <div class="flex mx-auto main-container">
+
+
+            @Html.Partial("~/Views/Shared/Sidebar.cshtml")
+
+            <!-- Start Content Area -->
+            <div class="flex-1 main-content">
+
+                @Html.Partial("~/Views/Shared/Topbar.cshtml")
+
+                <!-- Start Content -->
+                <div class="h-[calc(100vh-60px)]  relative overflow-y-auto overflow-x-hidden p-4 space-y-4 detached-content">
+
+                    <div class="grid grid-cols-12 gap-4">
+                        <div class="col-span-12 ">
+
+                            @Html.Partial("~/Views/Shared/Page_Title.cshtml")
+                            <!-- Start All Card -->
+                            <div class="flex flex-col gap-4 min-h-[calc(100vh-212px)] mt-4">
+                                <div class="grid w-full grid-cols-1 gap-4 lg:grid-cols-1 2xl:grid-cols-3">
+                                    <div class="flex items-center justify-between gap-6 p-5 bg-white border rounded dark:bg-darklight dark:border-darkborder border-black/10">
+                                        <div>
+                                            <span id="percentageTotalOrdersPlannedYesterdayAndToday" class="p-1 text-sm leading-none rounded-md bg-info/20 text-info">Loading...</span>
+                                            <p class="text-base dark:text-white/80">Daily Planned</p>
+                                            <div>
+                                                <h4 id="totalOrdersPlanned" class="text-2xl font-semibold text-black dark:text-white">
+                                                    Loading...
+                                                </h4>
+
+                                            </div>
+
+                                            <p class="text-muted">Today</p>
+                                        </div>
+                                        <div>
+                                            <div id="chart" dir="ltr"></div>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-center justify-between gap-6 p-5 bg-white border rounded dark:bg-darklight dark:border-darkborder border-black/10">
+                                        <div>
+                                            <span id="percentageTotalToySortedYesterdayAndToday" class="p-1 text-sm leading-none rounded-md bg-info/20 text-info">Loading...</span>
+                                            <p class="text-base dark:text-white/80">Processed</p>
+                                            <div>
+                                                <h4 id="totalOrdersProcessed" class="text-2xl font-semibold text-black dark:text-white">
+                                                    Loading...
+                                                </h4>
+
+                                            </div>
+                                            <p class="mt-3 mb-0 text-muted">Goods</p>
+                                        </div>
+                                        <div>
+                                            <div id="chart2" dir="ltr"></div>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-center justify-between gap-6 p-5 bg-white border rounded dark:bg-darklight dark:border-darkborder border-black/10">
+                                        <div>
+                                            <span id="percentageTotalGateActiveYesterdayAndToday" class="p-1 text-sm leading-none rounded-md bg-danger/20 text-danger">Loading...</span>
+                                            <p class="text-base dark:text-white/80">Active Gate</p>
+                                            <h4 id="totalActiveGate" class="flex items-center gap-4 mt-3 text-2xl font-semibold text-black dark:text-white">
+                                                Loading...
+                                            </h4>
+                                            <p class="mt-3 mb-0 text-muted">Gate</p>
+                                        </div>
+                                        <div>
+                                            <div id="chart4" dir="ltr"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="grid grid-cols-1 gap-4 lg:grid-cols-1 2xl:grid-cols-12">
+                                    <div class="gap-6 p-5 bg-white border rounded dark:bg-darklight dark:border-darkborder 2xl:col-span-8 border-black/10">
+                                        <div class="flex items-center justify-between gap-4 mb-4">
+                                            <h2 class="text-base font-semibold text-black dark:text-white/80">Realtime Hourly Gate</h2>
+                                            <div>
+                                                <div x-data="{ dropdown: false}" class="ml-auto dropdown">
+                                                    <a href="javaScript:;" class="text-black dark:text-white" @@click="dropdown = !dropdown" @@keydown.escape="dropdown = false">
+                                                        <svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                            <path d="M9 12.75C9.69036 12.75 10.25 13.3096 10.25 14C10.25 14.6904 9.69036 15.25 9 15.25C8.30964 15.25 7.75 14.6904 7.75 14C7.75 13.3096 8.30964 12.75 9 12.75Z" fill="currentColor"></path>
+                                                            <path d="M14 12.75C14.6904 12.75 15.25 13.3096 15.25 14C15.25 14.6904 14.6904 15.25 14 15.25C13.3096 15.25 12.75 14.6904 12.75 14C12.75 13.3096 13.3096 12.75 14 12.75Z" fill="currentColor"></path>
+                                                            <path d="M20.25 14C20.25 13.3096 19.6904 12.75 19 12.75C18.3096 12.75 17.75 13.3096 17.75 14C17.75 14.6904 18.3096 15.25 19 15.25C19.6904 15.25 20.25 14.6904 20.25 14Z" fill="currentColor"></path>
+                                                        </svg>
+                                                    </a>
+                                                    <ul x-show="dropdown" @@click.away="dropdown = false" x-transition="" x-transition.duration.300ms="" class="ltr:right-0 rtl:left-0 whitespace-nowrap">
+                                                        <li><a href="javascript:;">Weekly</a></li>
+                                                        <li><a href="javascript:;">Monthly</a></li>
+                                                        <li><a href="javascript:;">Yearly</a></li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div>
+                                            <div id="chart5" class="-ml-4"></div>
+                                        </div>
+                                    </div>
+
+                                    <div class="bg-white border rounded dark:bg-darklight dark:border-darkborder border-black/10 2xl:col-span-4">
+                                        <div class="gap-6 p-5 pb-4">
+                                            <h2 class="text-base font-semibold text-black capitalize dark:text-white/80">Today's Responsible</h2>
+                                        </div>
+                                        <div id="gateContainer" class="flex flex-col gap-3 h-[320px] overflow-y-auto px-5">
+                                            <!-- Data akan ditambahkan di sini -->
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                                <div class="grid grid-cols-1 gap-4 md:grid-cols-1">
+                                    <div class="gap-6 p-5 bg-white border rounded dark:bg-darklight dark:border-darkborder border-black/10">
+                                        <h2 class="mb-4 text-base font-semibold text-black capitalize dark:text-white/80">Sorted Data</h2>
+                                        <button type="button" id="btnManualInput" class="btn text-success border-success hover:bg-success hover:text-white">
+                                            Manual Input
+                                        </button>
+
+                                        <div class="overflow-auto mt-6">
+                                            <table class="min-w-[640px] w-full">
+                                                <thead>
+                                                    <tr class="ltr:text-left rtl:text-right">
+                                                        <th>Order ID</th>
+                                                        <th>Start Date</th>
+                                                        <th>Finish Date</th>
+                                                        <th>Toy Number</th>
+                                                        <th>Gate Location</th>
+                                                        <th>Total Planned</th>
+                                                        <th>Total Sorted</th>
+                                                        <th>Sorting  Status</th>
+                                                        <th>Actions</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody id="OrderPlansTable">
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- End All Card -->
+                        </div>
+
+
+                    </div>
+
+
+                    @Html.Partial("~/Views/Shared/Footer.cshtml")
+
+                </div>
+                <!-- End Content -->
+            </div>
+            <!-- End Content Area -->
+        </div>
+    </div>
+    <!-- End Layout -->
+    <!-- All javascirpt -->
+    @Html.Partial("~/Views/Shared/Vendor_Scripts.cshtml")
+
+    <script src="~/assets/libs/apexcharts/apexcharts.min.js"></script>
+    <script src="~/assets/js/main.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <script>
+
+        var getRealtimeHourly = '@Url.Action("GetRealtimeHourlyGate","Gate")';
+        var getActiveGateResponsibleAndSupervisorUrl = '@Url.Action("GetActiveGateResponsibleAndSupervisor", "Shipping")';
+        var renderLocationMonitoringTable = '@Url.Action("GetDailyPlanSummaries", "Shipping")';
+        var fetchManualInputDropdownOption = '@Url.Action("GetDailyPlanShortDropdown","Shipping")';
+        var insertToySortedManualUrl = '@Url.Action("InsertToySortedManualData", "OrderPlans")';
+
+        $(document).ready(function () {
+            // Memanggil fungsi untuk mengambil data dan menampilkan grafik
+            fetchRealtimeHourlyChartData();
+            getGateResponsibleSupervisor();
+            fetchDailyPlanSummaries();
+        });
+
+        function refreshData() {
+            // Memanggil kembali fungsi untuk mengambil data dan menampilkan grafik
+            fetchRealtimeHourlyChartData();
+            getGateResponsibleSupervisor();
+            fetchDailyPlanSummaries();
+        }
+
+
+        function getStatusClass(statusId) {
+            switch (statusId) {
+                case 1: return 'bg-info/10 text-info'; // IN PROGRESS - Biru Muda
+                case 2: return 'bg-success/10 text-success';   // COMPLETED
+                case 3: return 'bg-danger/10 text-danger';     // CANCELLED
+                case 4: return 'bg-warning/10 text-warning';   // PENDING
+                default: return 'bg-gray-200 text-gray-600';   // fallback
+            }
+        }
+
+        function formatDotNetDate(dotNetDateStr) {
+            const timestamp = parseInt(dotNetDateStr.replace(/\/Date\((\d+)\)\//, "$1"));
+            const date = new Date(timestamp);
+
+            const options = {
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric',
+            };
+
+            const formattedDate = date.toLocaleDateString('en-US', options);
+            const hours = String(date.getHours()).padStart(2, '0');
+            const minutes = String(date.getMinutes()).padStart(2, '0');
+
+            return `${formattedDate} at ${hours}.${minutes}`;
+        }
+
+        function fetchDailyPlanSummaries() {
+            $.ajax({
+                url: renderLocationMonitoringTable, // Pakai variabel Razor
+                method: 'GET',
+                dataType: 'json',
+                success: function (result) {
+                    if (result.success !== false) {
+                        renderDailyPlanTable(result.data || result);
+                    } else {
+                        console.error('Error:', result.message || 'Unknown error');
+                    }
+                },
+                error: function (xhr, status, error) {
+                    console.error('AJAX error:', error);
+                }
+            });
+        }
+
+        function renderDailyPlanTable(data) {
+            const tbody = document.getElementById("OrderPlansTable");
+            tbody.innerHTML = ""; // Kosongkan dulu
+
+            if (!data || data.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="11" class="text-center text-muted">No data available</td></tr>`;
+                return;
+            }
+
+            data.forEach((item, index) => {
+                const statusClass = getStatusClass(item.Detail_Status_ID);
+                const statusLabel = item.Detail_Status_Desc;  // Ambil deskripsi status
+
+                const row = `
+        <tr>
+            <td>${item.Schedule_Detail_ID || '-'}</td>
+            <td>${formatDotNetDate(item.Start_Date)}</td>
+            <td>${formatDotNetDate(item.Finish_Date)}</td>
+            <td>${item.Toy_Number || '-'}</td>
+            <td>${item.Gate_ID || '-'}</td>
+            <td>${item.Total_Planned}</td>
+            <td>${item.Total_Sorted}</td>
+            <td>
+                <span class="px-2 py-1 text-xs font-bold rounded ${statusClass}">
+                    ${statusLabel}
+                </span>
+            </td>
+            <td>
+                <div class="flex items-center gap-3">
+                    <a href="#!" class="transition duration-200 ease-linear text-muted hover:text-success"><i class="ri-eye-line"></i></a>
+                    <a href="#!" class="transition duration-200 ease-linear text-muted hover:text-purple"><i class="ri-edit-line"></i></a>
+                    <a href="#!" class="transition duration-200 ease-linear text-muted hover:text-warning"><i class="ri-error-warning-line"></i></a>
+                </div>
+            </td>
+        </tr>
+        `;
+
+                tbody.innerHTML += row;
+            });
+        }
+
+
+        // Chart Widget 1
+        var options = {
+            series: [
+                {
+                    data: [10, 82, 40, 65, 20, 89, 40, 20, 70, 98],
+                },
+            ],
+            chart: {
+                height: 60,
+                type: "line",
+                fontFamily: "Nunito, sans-serif",
+                sparkline: {
+                    enabled: true,
+                },
+                dropShadow: {
+                    enabled: false,
+                },
+            },
+            stroke: {
+                curve: "smooth",
+                width: 2,
+            },
+            colors: ["#50cd89"],
+            grid: {
+                padding: {
+                    top: 5,
+                    bottom: 5,
+                    left: 5,
+                    right: 5,
+                },
+            },
+            tooltip: {
+                x: {
+                    show: false,
+                },
+                y: {
+                    title: {
+                        formatter: (() => {
+                            return "";
+                        }),
+                    },
+                },
+            },
+        };
+
+        var chart = new ApexCharts(document.querySelector("#chart"), options);
+        chart.render();
+
+        // Chart Widget 2
+        var options = {
+            series: [
+                {
+                    data: [10, 82, 40, 65, 20, 89, 40, 20, 70, 98],
+                },
+            ],
+            chart: {
+                height: 60,
+                type: "line",
+                fontFamily: "Nunito, sans-serif",
+                sparkline: {
+                    enabled: true,
+                },
+                dropShadow: {
+                    enabled: false,
+                },
+            },
+            stroke: {
+                curve: "smooth",
+                width: 2,
+            },
+            colors: ["#67cc8b"],
+            grid: {
+                padding: {
+                    top: 5,
+                    bottom: 5,
+                    left: 5,
+                    right: 5,
+                },
+            },
+            tooltip: {
+                x: {
+                    show: false,
+                },
+                y: {
+                    title: {
+                        formatter: (() => {
+                            return "";
+                        }),
+                    },
+                },
+            },
+        };
+
+        var chart = new ApexCharts(document.querySelector("#chart2"), options);
+        chart.render();
+
+        // Chart Widget 4
+        var options = {
+            series: [
+                {
+                    data: [20, 10, 40, 40, 10, 89, 70, 20, 70, 98, 89, 20, 10],
+                },
+            ],
+            chart: {
+                height: 60,
+                type: "line",
+                fontFamily: "Nunito, sans-serif",
+                sparkline: {
+                    enabled: true,
+                },
+                dropShadow: {
+                    enabled: false,
+                },
+            },
+            stroke: {
+                curve: "smooth",
+                width: 2,
+            },
+            colors: ["#f1416c"],
+            grid: {
+                padding: {
+                    top: 5,
+                    bottom: 5,
+                    left: 5,
+                    right: 5,
+                },
+            },
+            tooltip: {
+                x: {
+                    show: false,
+                },
+                y: {
+                    title: {
+                        formatter: (() => {
+                            return "";
+                        }),
+                    },
+                },
+            },
+        };
+
+        var chart = new ApexCharts(document.querySelector("#chart4"), options);
+        chart.render();
+
+
+        function fetchRealtimeHourlyChartData() {
+            $.ajax({
+                url: getRealtimeHourly,
+                type: 'GET',
+                success: function (data) {
+                    // Panggil fungsi untuk menyiapkan data chart
+                    var chartOptions = prepareChartDataRealtimeHourly(data);
+
+                    // Render chart ke elemen dengan ID #chart5
+                    var chart = new ApexCharts(document.querySelector("#chart5"), chartOptions);
+                    chart.render();
+                },
+                error: function () {
+                    console.log("Error retrieving data.");
+                }
+            });
+        }
+
+
+        function prepareChartDataRealtimeHourly(data) {
+            const gates = new Set();
+            const hourSet = new Set();
+            const dataMap = {};
+
+            // Langkah 1: kumpulkan jam unik & gate unik
+            data.forEach(item => {
+                const match = item.RoundedHour.match(/\/Date\((\d+)\)\//);
+                if (!match) return;
+
+                const timestamp = parseInt(match[1]);
+                const hour = new Date(timestamp);
+                const hourKey = hour.toISOString(); // Format ISO sebagai key
+                hourSet.add(hourKey);
+                gates.add(item.GateID);
+
+                if (!dataMap[hourKey]) dataMap[hourKey] = {};
+                dataMap[hourKey][item.GateID] = item.TotalSorted;
+            });
+
+            // Urutkan jam
+            const sortedHours = Array.from(hourSet).sort();
+            const labels = sortedHours.map(h => {
+                const date = new Date(h);
+                return date.getHours().toString().padStart(2, '0') + ':' +
+                    date.getMinutes().toString().padStart(2, '0');
+            });
+
+            // Bangun series
+            const series = [];
+            gates.forEach(gateId => {
+                const dataPerHour = sortedHours.map(hourKey => {
+                    return dataMap[hourKey][gateId] ?? 0; // isi 0 jika tidak ada
+                });
+                series.push({
+                    name: 'Gate ' + gateId,
+                    type: 'line',
+                    data: dataPerHour
+                });
+            });
+
+            return {
+                series: series,
+                chart: {
+                    height: 310,
+                    type: 'line',
+                    toolbar: { show: false }
+                },
+                grid: {
+                    padding: { top: -15, right: -2, bottom: -10 }
+                },
+                stroke: {
+                    curve: 'smooth',
+                    width: [2, 2, 2]
+                },
+                fill: {
+                    type: 'solid',
+                    opacity: [0.35, 1],
+                },
+                labels: labels,
+                markers: { size: 0 },
+                tooltip: {
+                    shared: true,
+                    intersect: false,
+                    y: {
+                        formatter: function (y) {
+                            return typeof y !== "undefined" ? y.toFixed(0) + " Goods" : y;
+                        }
+                    }
+                }
+            };
+        }
+
+
+        function getGateResponsibleSupervisor() {
+            $.ajax({
+                url: '@Url.Action("GetActiveGateResponsibleAndSupervisor", "Shipping")',
+                type: 'GET',
+                dataType: 'json',
+                success: function (data) {
+                    const container = $("#gateContainer"); // Selector utama container div yang sudah diberi ID
+
+                    container.empty(); // Bersihkan dulu isi lama
+
+                    if (data.length === 0) {
+                        container.append("<p class='text-sm text-muted'>No active plan found.</p>");
+                    }
+
+                    data.forEach(item => {
+                        const html = `
+                            <a href="#!" class="block p-3 border rounded-md dark:border-darkborder border-black/10">
+                                <h6 class="mb-3 text-black truncate dark:text-white/80">Gate ${item.Gate_ID}</h6>
+
+                                <div class="space-y-3">
+                                    <div class="flex items-center gap-2">
+                                        <img src="/assets/images/avatar-20.png" alt="" class="rounded-full size-8">
+                                        <div class="grow">
+                                            <p class="text-xs text-muted">Assigned To</p>
+                                            <h6 class="text-sm text-black dark:text-white/80">${item.Gate_Responsible_Name}</h6>
+                                        </div>
+                                    </div>
+
+                                    <div class="flex items-center gap-2">
+                                        <img src="/assets/images/avatar-20.png" alt="" class="rounded-full size-8">
+                                        <div class="grow">
+                                            <p class="text-xs text-muted">Supervised By</p>
+                                            <h6 class="text-sm text-black dark:text-white/80">${item.Supervisor_Name}</h6>
+                                        </div>
+                                    </div>
+                                </div>
+                            </a>
+                        `;
+                        container.append(html);
+                    });
+                },
+                error: function (xhr, status, error) {
+                    console.error("Error fetching data:", error);
+                }
+            });
+        }
+        document.getElementById("btnManualInput").addEventListener("click", function () {
+            fetch(fetchManualInputDropdownOption)
+                .then(response => response.json())
+                .then(data => {
+                    let optionsHtml = '<option value="" disabled selected>Select an Option</option>';
+                    data.forEach(item => {
+                        const value = item.DailyPlanDetail_ID;
+                        const toyNumber = item.DailyPlanDetail_ToyNumber;
+                        const label = `${value} - ${toyNumber}`;
+                        optionsHtml += `<option value="${value}" data-toy-number="${toyNumber}">${label}</option>`;
+                    });
+
+                    Swal.fire({
+                        title: 'Manual Input',
+                        html: `
+                    <div style="display: flex; flex-direction: column; gap: 10px;">
+                        <select id="manualDropdown" class="swal2-select" style="padding: 8px; font-size: 16px;">
+                            ${optionsHtml}
+                        </select>
+                        <input id="manualNumber" type="number" placeholder="Enter quantity"
+                            style="padding: 8px; font-size: 16px;" />
+                    </div>
+                `,
+                        confirmButtonText: 'Submit',
+                        allowOutsideClick: false,
+                        showLoaderOnConfirm: true,
+                        preConfirm: () => {
+                            const dropdown = document.getElementById('manualDropdown');
+                            const selected = dropdown.value;
+                            const number = document.getElementById('manualNumber').value;
+                            const toyNumber = dropdown.options[dropdown.selectedIndex].getAttribute("data-toy-number");
+
+                            if (!selected || !number) {
+                                Swal.showValidationMessage('All fields are required!');
+                                return false;
+                            }
+
+                            return {
+                                dailyPlanId: parseInt(selected),
+                                toyNumber: toyNumber,
+                                inputNumber: parseInt(number)
+                            };
+                        }
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            const { dailyPlanId, toyNumber, inputNumber } = result.value;
+                            console.log('Data submitted:', result.value);
+                            InsertToyManual(dailyPlanId, toyNumber, inputNumber);
+                        }
+                    });
+                })
+                .catch(error => {
+                    console.error('Error fetching dropdown options:', error);
+                    Swal.fire('Error', 'Failed to retrieve dropdown options.', 'error');
+                });
+        });
+
+        function InsertToyManual(dailyPlanId, toyNumber, inputNumber) {
+            let insertCount = 0;
+            let hasError = false;
+
+            Swal.fire({
+                title: 'Processing...',
+                text: 'Please wait while data is being submitted.',
+                allowOutsideClick: false,
+                didOpen: () => {
+                    Swal.showLoading();
+                }
+            });
+
+            for (let i = 0; i < inputNumber; i++) {
+                $.ajax({
+                    url: insertToySortedManualUrl,
+                    type: "POST",
+                    data: {
+                        dailyPlanId: dailyPlanId,
+                        toyNumber: toyNumber,
+                        index: i // Kirimkan index untuk delay
+                    },
+                    success: function (response) {
+                        insertCount++;
+                        if (insertCount === inputNumber && !hasError) {
+                            Swal.fire('Success', `${inputNumber} record(s) have been successfully inserted.`, 'success');
+                        }
+                        refreshData();
+                    },
+                    error: function () {
+                        if (!hasError) {
+                            hasError = true;
+                            Swal.fire('Error', 'An error occurred while submitting the data.', 'error');
+                        }
+                    }
+                });
+            }
+        }
+
+
+
+
+
+
+
+
+
+    </script>
+
+</body>
+
+</html>

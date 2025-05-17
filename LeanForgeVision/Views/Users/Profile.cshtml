@@ -1,0 +1,49 @@
+﻿
+@{
+    ViewBag.Title = "Users";
+    ViewBag.pTitle = "Profile";
+    ViewBag.xData = "users";
+    ViewBag.ActiveItem = "profile";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var imageUrl = Url.Content("~/assets/images/images-2.jpg");
+}
+
+
+<!-- Start All Card -->
+<div class="flex flex-col gap-4 min-h-[calc(100vh-212px)]">
+    <div class="grid grid-cols-1 gap-4">
+        <div class="p-5 bg-white border rounded border-black/10 dark:bg-darklight dark:border-darkborder">
+            <div style="background-image: url('@imageUrl');" class="bg-cover h-72 rounded-lg bg-center"></div>
+            <div class="relative px-10 -mt-16">
+                <div class="flex items-center justify-between gap-5">
+                    <div class="relative w-24 h-24">
+                        <img src="~/assets/images/avatar-1.png" class="border-4 rounded-full border-light/50" alt="">
+                        <span class="absolute w-3.5 h-3.5 rounded-full bg-success bottom-1 ltr:right-2 rtl:left-2"></span>
+                    </div>
+
+
+                </div>
+                <div class="flex flex-col items-start justify-between md:flex-row gap-7">
+                    <div class="mt-4 shrink-0">
+                        <div>
+                            <h5 class="text-xl font-bold dark:text-white">Kevin Bujani</h5>
+                            <p class="text-muted dark:text-darkmuted"> Supervisor </p>
+                        </div>
+
+                    </div>
+                  
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+<!-- End All Card -->
+@section scripts{
+
+
+
+    <script src="~/assets/js/main.js"></script>
+
+
+}

@@ -1,0 +1,744 @@
+﻿
+@{
+    ViewBag.Title = "LeanForge Vision";
+    ViewBag.pTitle = "Order";
+    ViewBag.xData = "Shipping";
+    ViewBag.ActiveItem = "order";
+    Layout = null;
+    var imageUrl = Url.Content("~/assets/images/bg-main.png");
+}
+
+<!DOCTYPE html>
+<html lang="en" :dir="$store.app.direction" x-data="{ direction: $store.app.direction }" x-bind:dir="direction" class="group/item" :data-mode="$store.app.mode" :data-sidebar="$store.app.sidebarMode">
+
+<head>
+    @Html.Partial("~/Views/Shared/title_meta.cshtml")
+
+
+    @Html.Partial("~/Views/Shared/head_css.cshtml")
+
+</head>
+
+<body x-data="main" x-init="$store.app.hasCreative = window.location.href.includes('creative.html') ,
+$store.app.hasdetached = window.location.href.includes('detached.html')" :class="[ $store.app.sidebar ?
+'toggle-sidebar' : '', $store.app.fullscreen ? 'full' : '' , $store.app.hasCreative ? 'detached ' : '' ,
+ $store.app.hasdetached ? 'detached detached-simple ' : '' , $store.app.layout  ]"
+      class="relative overflow-x-hidden text-sm antialiased font-normal text-black font-cerebri dark:text-white vertical  " x-data="modals">
+
+
+    <!-- Start Layout -->
+    <div class="bg-[#f9fbfd] dark:bg-dark">
+
+        <!-- Start detached bg -->
+        <div style="background-image: url('@imageUrl');" class="bg-black min-h-[220px] sm:min-h-[250px] bg-bottom fixed hidden w-full -z-50 detached-img"></div>
+
+        <!-- End detached bg -->
+        <!-- Start Menu Sidebar Olverlay -->
+        <div x-cloak class="fixed inset-0 bg-black/60 dark:bg-dark/90 z-10 lg:hidden" :class="{'hidden' : !$store.app.sidebar}" @@click="$store.app.toggleSidebar()"></div>
+        <!-- End Menu Sidebar Olverlay -->
+        <!-- Start Main Content -->
+        <div class="flex mx-auto main-container">
+
+
+            @Html.Partial("~/Views/Shared/Sidebar.cshtml")
+
+            <!-- Start Content Area -->
+            <div class="flex-1 main-content">
+
+                @Html.Partial("~/Views/Shared/Topbar.cshtml")
+
+                <!-- Start Content -->
+                <div class="h-[calc(100vh-60px)]  relative overflow-y-auto overflow-x-hidden p-4 space-y-4 detached-content">
+
+                    <div class="grid grid-cols-12 gap-4">
+                        <div class="col-span-12 ">
+
+                            @Html.Partial("~/Views/Shared/Page_Title.cshtml")
+                            <!-- Start All Card -->
+                            <div class="flex flex-col gap-4 min-h-[calc(100vh-212px)] mt-4">
+                                <div class="grid w-full grid-cols-1 gap-4 lg:grid-cols-1 2xl:grid-cols-3">
+                                    <div class="flex items-center justify-between gap-6 p-5 bg-white border rounded dark:bg-darklight dark:border-darkborder border-black/10">
+                                        <div>
+                                            <span id="percentageTotalOrdersPlannedYesterdayAndToday" class="p-1 text-sm leading-none rounded-md bg-info/20 text-info">Loading...</span>
+                                            <p class="text-base dark:text-white/80">Daily Planned</p>
+                                            <div>
+                                                <h4 id="totalOrdersPlanned" class="text-2xl font-semibold text-black dark:text-white">
+                                                    Loading...
+                                                </h4>
+
+                                            </div>
+
+                                            <p class="text-muted">Today</p>
+                                        </div>
+                                        <div>
+                                            <div id="chartTotalOrdersPlannedWeekly" dir="ltr"></div>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-center justify-between gap-6 p-5 bg-white border rounded dark:bg-darklight dark:border-darkborder border-black/10">
+                                        <div>
+                                            <span id="percentageTotalToySortedYesterdayAndToday" class="p-1 text-sm leading-none rounded-md bg-info/20 text-info">Loading...</span>
+                                            <p class="text-base dark:text-white/80">Processed</p>
+                                            <div>
+                                                <h4 id="totalOrdersProcessed" class="text-2xl font-semibold text-black dark:text-white">
+                                                    Loading...
+                                                </h4>
+
+                                            </div>
+                                            <p class="mt-3 mb-0 text-muted">Goods</p>
+                                        </div>
+                                        <div>
+                                            <div id="chartTotalSortedWeekly" dir="ltr"></div>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-center justify-between gap-6 p-5 bg-white border rounded dark:bg-darklight dark:border-darkborder border-black/10">
+                                        <div>
+                                            <span id="percentageTotalGateActiveYesterdayAndToday" class="p-1 text-sm leading-none rounded-md bg-danger/20 text-danger">Loading...</span>
+                                            <p class="text-base dark:text-white/80">Active Gate</p>
+                                            <h4 id="totalActiveGate" class="flex items-center gap-4 mt-3 text-2xl font-semibold text-black dark:text-white">
+                                                Loading...
+                                            </h4>
+                                            <p class="mt-3 mb-0 text-muted">Gate</p>
+                                        </div>
+                                        <div>
+                                            <div id="chartTotalGateActiveWeekly" dir="ltr"></div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="grid grid-cols-1 gap-4 md:grid-cols-1">
+                                    <div class="gap-6 p-5 bg-white border rounded dark:bg-darklight dark:border-darkborder border-black/10">
+                                        <h2 class="mb-4 text-base font-semibold text-black capitalize dark:text-white/80">Planned Schedule</h2>
+                                        <button type="button" id="addScheduleBtn" class="btn text-success border-success hover:bg-success hover:text-white">
+                                            Add Schedule
+                                        </button>
+
+                                        <div class="overflow-auto mt-6">
+                                            <table class="min-w-[640px] w-full">
+                                                <thead>
+                                                    <tr class="ltr:text-left rtl:text-right">
+                                                        <th>Created Date</th>
+                                                        <th>Head Schedule ID</th>
+                                                        <th>Detail Schedule ID</th>
+                                                        <th>Toy Number</th>
+                                                        <th>Planner</th>
+                                                        <th>Total Quantity</th>
+                                                        <th>Gate Responsible</th>
+                                                        <th>Supervisor</th>
+                                                        <th>Sorting  Status</th>
+                                                        <th>Actions</th>
+                                                    </tr>
+                                                </thead>
+
+                                                <tbody id="schedule-body">
+                                                    <!-- Data dari AJAX akan dimasukkan ke sini -->
+                                                </tbody>
+
+                                            </table>
+                                        </div>
+
+
+                                        <div class="overflow-auto">
+                                            <div class="flex justify-end">
+                                                <ul id="pagination" class="inline-flex items-center gap-1 mb-4">
+                                                    <!-- tombol akan diisi secara dinamis oleh JS -->
+                                                </ul>
+                                            </div>
+                                        </div>
+
+
+                                    </div>
+                                </div>
+
+
+
+
+                            </div>
+                            <!-- End All Card -->
+                        </div>
+
+
+                    </div>
+
+
+                    @Html.Partial("~/Views/Shared/Footer.cshtml")
+
+                </div>
+                <!-- End Content -->
+            </div>
+            <!-- End Content Area -->
+        </div>
+    </div>
+    <!-- End Layout -->
+    <!-- All javascirpt -->
+    @Html.Partial("~/Views/Shared/Vendor_Scripts.cshtml")
+
+    <script src="~/assets/libs/apexcharts/apexcharts.min.js"></script>
+
+    <script src="~/assets/js/main.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="~/assets/js/pages/appexchart-app.js"></script>
+    <!-- Selectize.js CSS dan JS -->
+    <link href="https://cdn.jsdelivr.net/npm/selectize@0.12.6/dist/css/selectize.default.css" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/selectize@0.12.6/dist/js/standalone/selectize.min.js"></script>
+
+
+
+
+    <script>
+
+        let currentPage = 1;
+        const itemsPerPage = 10;
+        let scheduleData = []; // untuk menyimpan semua data dari API
+        let totalRecords = 0;
+        var inputSchedule = '@Url.Action("InsertSchedules", "OrderPlans")';
+        var inputDailySchedule = '@Url.Action("InsertDailySchedule", "Shipping")';
+        var fetchSchedule = '@Url.Action("GetSchedules", "Shipping")';
+        var fetchInactiveGateUrl = '@Url.Action("GetGateLocationForInactive", "Gate")';
+        var fetchToyNumberListUrl = '@Url.Action("GetToyNumbers", "Shipping")';
+       
+
+        $(document).ready(function () {
+            fetchSchedules();
+        });
+
+        function refreshData() {
+            fetchSchedules();
+        }
+
+        function formatDotNetDate(dotNetDateStr) {
+            const timestamp = parseInt(dotNetDateStr.replace(/\/Date\((\d+)\)\//, "$1"));
+            const date = new Date(timestamp);
+
+            const options = {
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric',
+            };
+
+            const formattedDate = date.toLocaleDateString('en-US', options);
+            const hours = String(date.getHours()).padStart(2, '0');
+            const minutes = String(date.getMinutes()).padStart(2, '0');
+
+            return `${formattedDate} at ${hours}.${minutes}`;
+        }
+
+        function getStatusClass(statusId) {
+            switch (statusId) {
+                case 1: return 'bg-info/10 text-info'; // IN PROGRESS - Biru Muda
+                case 2: return 'bg-success/10 text-success';   // COMPLETED
+                case 3: return 'bg-danger/10 text-danger';     // CANCELLED
+                case 4: return 'bg-warning/10 text-warning';   // PENDING
+                default: return 'bg-gray-200 text-gray-600';   // fallback
+            }
+        }
+
+        function fetchInactiveGate(scheduleHeadID) {
+            $.ajax({
+                url: fetchInactiveGateUrl,
+                type: 'GET',
+                data: { scheduleHeadId: scheduleHeadID },
+                dataType: 'json',
+                success: function (response) {
+                    const dropdown = $('#gate-location');
+                    dropdown.empty();
+                    dropdown.append(`<option value="">-- Select Gate --</option>`);
+
+                    if (response.success && Array.isArray(response.data)) {
+                        response.data.forEach(gate => {
+                            dropdown.append(`<option value="${gate.Gate_ID}">${gate.Gate_Name}</option>`);
+                        });
+                    } else {
+                        console.error("Error in response:", response);
+                        dropdown.append(`<option value="">No gates found or error</option>`);
+                    }
+                },
+                error: function () {
+                    alert('Error fetching gate data!');
+                }
+            });
+        }
+
+        function fetchToyNumberDropdown() {
+            const $select = $('#toyNumberSelect');
+            if (!$select.length) return; // Pastikan elemen sudah muncul
+
+            // Menambahkan opsi default untuk dropdown
+            $select.append('<option value="" disabled selected>Select a toy number</option>');
+
+            $.ajax({
+                url: fetchToyNumberListUrl, // Ganti dengan URL yang sesuai
+                type: 'GET',
+                dataType: 'json',
+                success: function (res) {
+                    // Menghapus opsi default setelah data dimuat
+                    $select.empty();
+                    // Menambahkan opsi default lagi setelah data dimuat
+                    $select.append('<option value="" disabled selected>Select a toy number</option>');
+
+                    // Menambahkan opsi ke dalam dropdown berdasarkan hasil API
+                    const options = res.map(item => {
+                        return `<option value="${item.Toy_Number}">${item.Toy_Number} - ${item.Toy_Description}</option>`;
+                    });
+                    $select.append(options);
+                },
+                error: function () {
+                    console.error("Failed to fetch Toy Numbers");
+                }
+            });
+        }
+
+        document.getElementById("addScheduleBtn").addEventListener("click", function () {
+
+            const plannerId = sessionStorage.getItem("userId") || "";
+
+            Swal.fire({
+                title: "Add New Schedule",
+                html: `
+                <div class="flex flex-col gap-4">
+                    <input type="text" id="plannerId" placeholder="Planner ID" value="${plannerId}" readonly class="form-input px-4 py-2 rounded border border-gray-300 bg-gray-100 text-sm" />
+
+                    <input type="number" id="totalPlanned" min="1" placeholder="Total Planned" class="form-input px-4 py-2 rounded border border-gray-300 text-sm" />
+                    <p id="warning" class="text-red-500 text-sm mt-1 hidden">Value must be at least 1.</p>
+
+
+                    <input type="text" id="gateResponsibleId" placeholder="Gate Responsible ID" class="form-input px-4 py-2 rounded border border-gray-300 text-sm" />
+
+                    <input type="text" id="supervisorId" placeholder="Supervisor ID" class="form-input px-4 py-2 rounded border border-gray-300 text-sm" />
+
+                <div class="flex">
+                    <div class="flex-1 pr-2">
+                        <select class="form-select w-full" id="toyNumberSelect">
+                            <!-- Placeholder for Toy Numbers, akan diisi melalui JS -->
+                        </select>
+                    </div>
+                    <div class="flex-1 pl-2">
+                        <input type="number" id="plannedInput" placeholder="Planned per Toy" class="form-input w-full rounded-none ltr:border-r-0 rtl:border-l-0" />
+                    </div>
+                    <button id="addToyNumberBtn" class="btn bg-purple border border-purple ltr:rounded-l-none rtl:rounded-r-none text-white transition-all duration-300 hover:bg-purple/[0.85] hover:border-purple/[0.85]">
+                        Add
+                    </button>
+                </div>
+                    <div id="toyNumbersContainer" class="flex flex-col gap-2 max-h-[150px] overflow-y-auto mt-2"></div>
+                </div>
+                `,
+                confirmButtonText: "Save",
+                showCancelButton: true,
+                cancelButtonText: "Cancel",
+                didOpen: () => {
+                    fetchToyNumberDropdown();
+                    const toyNumbersContainer = document.getElementById("toyNumbersContainer");
+                    const toyNumberInput = document.getElementById("toyNumberInput");
+                    const plannedInput = document.getElementById("plannedInput");
+                    const addBtn = document.getElementById("addToyNumberBtn");
+
+                    $('#totalPlanned').on('input', function () {
+                        var value = parseInt($(this).val(), 10);
+                        if (value < 1) {
+                            $('#warning').removeClass('hidden');
+                            $(this)
+                                .css('border-color', '#ef4444') // Tailwind red-500 hex
+                                .css('border-width', '1px')
+                                .css('border-style', 'solid');
+                        } else {
+                            $('#warning').addClass('hidden');
+                            $(this)
+                                .css('border-color', '') // reset to default
+                                .css('border-width', '')
+                                .css('border-style', '');
+                        }
+                    });
+
+
+
+
+                    addBtn.addEventListener("click", function () {
+                        const toyValue = document.getElementById("toyNumberSelect").value.trim(); // Menggunakan ID yang benar
+                        const plannedValue = parseInt(document.getElementById("plannedInput").value.trim());
+                        const totalPlanned = parseInt(document.getElementById("totalPlanned").value.trim()) || 0;
+
+                        removeErrorMessagesAddScheduleModal(); // Hapus error sebelumnya
+
+                        if (!toyValue || isNaN(plannedValue) || plannedValue <= 0) {
+                            highlightErrorAddScheduleModal(toyNumberSelect, "Please input both Toy Number and a valid Planned Quantity.");
+                            highlightErrorAddScheduleModal(plannedInput, "Please input both Toy Number and a valid Planned Quantity.");
+                            return;
+                        }
+
+                        // Hitung total planned sekarang
+                        let currentTotal = 0;
+                        document.querySelectorAll(".toy-tag").forEach(tag => {
+                            currentTotal += parseInt(tag.getAttribute("data-quantity"));
+                        });
+
+                        if (currentTotal + plannedValue > totalPlanned) {
+                            highlightErrorAddScheduleModal(plannedInput, "Adding this planned quantity exceeds the total planned.");
+                            return;
+                        }
+
+                        // Jika valid, normalkan border
+                        document.getElementById("toyNumberSelect").style.border = "";
+                        document.getElementById("plannedInput").style.border = "";
+
+                        // Tambahkan ke container
+                        const tag = document.createElement("div");
+                        tag.innerHTML = `${toyValue} - ${plannedValue}`;
+                        tag.style = "background: #eee; padding: 5px 10px; border-radius: 10px; font-size: 13px;";
+                        tag.classList.add("toy-tag");
+                        tag.setAttribute("data-value", toyValue);
+                        tag.setAttribute("data-quantity", plannedValue);
+                        document.getElementById("toyNumbersContainer").appendChild(tag);
+
+                        // Reset input
+                        document.getElementById("toyNumberSelect").value = ""; // Clear the dropdown
+                        document.getElementById("plannedInput").value = ""; // Clear the planned quantity input
+                    });
+
+                },
+                preConfirm: () => {
+                    const toyNumbers = [];
+                    document.querySelectorAll(".toy-tag").forEach(tag => {
+                        toyNumbers.push({
+                            toyNumber: tag.getAttribute("data-value"),
+                            planned: parseInt(tag.getAttribute("data-quantity"))
+                        });
+                    });
+
+                    const plannerId = document.getElementById("plannerId").value;
+                    const totalPlanned = document.getElementById("totalPlanned").value;
+                    const gateResponsibleId = document.getElementById("gateResponsibleId").value;
+                    const supervisorId = document.getElementById("supervisorId").value;
+
+                    if (toyNumbers.length === 0 || !totalPlanned || !gateResponsibleId || !supervisorId) {
+                        Swal.showValidationMessage("Please fill in all fields and add at least one Toy Number.");
+                        return false;
+                    }
+
+                    return { toyNumbers, plannerId, totalPlanned, gateResponsibleId, supervisorId };
+                }
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    const { toyNumbers, plannerId, totalPlanned, gateResponsibleId, supervisorId } = result.value;
+
+                    const requestData = {
+                        toyNumbers: toyNumbers,
+                        plannerId: plannerId,
+                        totalPlanned: parseInt(totalPlanned),
+                        gateResponsibleId: gateResponsibleId,
+                        supervisorId: supervisorId
+                    };
+
+                    insertSchedule(requestData); // kirim ke server
+                  /*  location.reload();  // Memuat ulang halaman*/
+
+                }
+            });
+
+            // Helper untuk menghapus semua error
+            function removeErrorMessagesAddScheduleModal() {
+                document.querySelectorAll(".input-error-message").forEach(msg => msg.remove());
+                document.querySelectorAll(".swal2-input").forEach(input => {
+                    input.style.border = ""; // reset border
+                });
+            }
+
+            // Helper untuk highlight error
+            function highlightErrorAddScheduleModal(inputElement, message) {
+                inputElement.style.border = "2px solid red";
+                const errorMessage = document.createElement("div");
+                errorMessage.className = "input-error-message";
+                errorMessage.style.color = "red";
+                errorMessage.style.fontSize = "12px";
+                errorMessage.style.marginTop = "2px";
+                errorMessage.textContent = message;
+                inputElement.parentNode.appendChild(errorMessage);
+            }
+        });
+
+        function insertSchedule(scheduleData) {
+            console.log("Sending Data:", scheduleData); // { toyNumbers: [], plannerId, ... }
+
+            $.ajax({
+                url: inputSchedule,
+                type: "POST",
+                contentType: "application/json",
+                data: JSON.stringify({
+                    Toy_Numbers: scheduleData.toyNumbers, // array
+                    Planner_ID: scheduleData.plannerId,
+                    Total_Planned: scheduleData.totalPlanned,
+                    Gate_Responsible_ID: scheduleData.gateResponsibleId,
+                    Supervisor_ID: scheduleData.supervisorId,
+                    TableName: "New Schedule",
+                    Created_At: new Date().toISOString()
+                }),
+                success: function (response) {
+                    console.log("Server Response:", response);
+                  
+                    if (response.success) {
+                        const successMessage = response.message || "Schedule added successfully."; // <-- VAR PESAN
+                        // Function InsertAuditLog Are in shared folder Vendor_scripts
+                        insertAuditLog({
+                            AuditLog_TableName: "New Schedule Added",
+                            AuditLog_RecordID: "New Data",
+                            AuditLog_ActionTypeID: 9,
+                            AuditLog_ChangedBy: scheduleData.plannerId,
+                            AuditLog_ChangedAt: new Date().toISOString()
+                        }, successMessage);
+
+                    } else {
+                        Swal.fire("Error!", response.message || "Failed to add schedule.", "error");
+                    }
+                },
+                error: function (xhr, status, error) {
+                    console.error("AJAX Error:", xhr, status, error);
+                    Swal.fire("Error!", "An unexpected error occurred.", "error");
+                }
+            });
+        }
+
+        function fetchSchedules(page = 1) {
+            currentPage = page;
+
+            $.ajax({
+                url: `${fetchSchedule}?page=${page}&pageSize=${itemsPerPage}`,
+                type: 'GET',
+                dataType: 'json',
+                success: function (response) {
+                    scheduleData = response.data;
+                    totalRecords = response.total;
+
+                    renderPagination();
+                    renderSchedules();
+                },
+                error: function () {
+                    alert('Gagal mengambil data jadwal!');
+                }
+            });
+        }
+
+
+
+        function renderSchedules() {
+            let tbody = $('#schedule-body');
+            tbody.empty();
+
+            const pagedData = scheduleData;
+
+            if (pagedData.length === 0) {
+                tbody.append(`<tr><td colspan="9" class="text-center text-muted">Tidak ada data</td></tr>`);
+                return;
+            }
+
+            pagedData.forEach(function (item) {
+                let statusClass = getStatusClass(item.Detail_Status_ID);
+                let row = `
+                     <tr class="text-muted">
+                         <td>${formatDotNetDate(item.Created_At)}</td>
+                         <td>${item.Schedule_ID}</td>
+                         <td>${item.Schedule_Detail_ID}</td>
+                         <td>${item.Toy_Number}</td>
+                         <td>${item.Planner_Name}</td>
+                         <td>${item.Toy_TotalPlanned}</td>
+                         <td>${item.Gate_Responsible_Name}</td>
+                         <td>${item.Supervisor_Name}</td>
+                         <td>
+                             <span class="px-2 py-1 text-xs font-bold rounded ${statusClass}">
+                                 ${item.Detail_Status_Desc}
+                             </span>
+                         </td>
+                         <td>
+                             <div class="flex items-center gap-3">
+
+                                 <a href="#!" class="transition duration-200 ease-linear text-muted hover:text-success"><i class="ri-eye-line"></i></a>
+                                 <a href="#!" class="transition duration-200 ease-linear text-muted hover:text-purple"><i class="ri-edit-line"></i></a>
+                                  <a href="#!" class="transition duration-200 ease-linear text-muted hover:text-warning view-schedule-detail"
+                                    id="schedule-${item.Schedule_Detail_ID}" data-toy-number="${item.Toy_Number}" data-head-schedule-ID="${item.Schedule_ID}">
+                                   <i class="ri-play-line"></i>
+                                 </a>
+                             </div>
+                         </td>
+                     </tr>`;
+                tbody.append(row);
+            });
+        }
+
+
+
+        $(document).on('click', '.view-schedule-detail', function () {
+            let idAttr = $(this).attr('id');
+            let scheduleId = idAttr.split('schedule-')[1];
+            let toyNumber = $(this).data('toy-number');
+            let scheduleHeadID = $(this).data('head-schedule-id');
+            console.log("schedule Head ID", scheduleHeadID);
+
+            Swal.fire({
+                title: `Schedule ID: ${scheduleId}`,
+                html: `
+            <p style="margin-bottom: 15px;">Toy Number: <strong>${toyNumber}</strong></p>
+
+            <div style="display: flex; align-items: center; margin-bottom: 10px;">
+                <label for="schedule-date-start" style="width: 130px; font-weight: 500;">Start Date:</label>
+                <input type="date" id="schedule-date-start"
+                    style="flex: 1; height: 38px; padding: 5px 10px; border: 1px solid #ccc; border-radius: 4px; font-size: 14px; margin-right: 10px;">
+                <input type="time" id="schedule-time-start"
+                    style="width: 120px; height: 38px; padding: 5px 10px; border: 1px solid #ccc; border-radius: 4px; font-size: 14px;">
+            </div>
+
+            <div style="display: flex; align-items: center; margin-bottom: 10px;">
+                <label for="schedule-date-end" style="width: 130px; font-weight: 500;">End Date:</label>
+                <input type="date" id="schedule-date-end"
+                    style="flex: 1; height: 38px; padding: 5px 10px; border: 1px solid #ccc; border-radius: 4px; font-size: 14px; margin-right: 10px;">
+                <input type="time" id="schedule-time-end"
+                    style="width: 120px; height: 38px; padding: 5px 10px; border: 1px solid #ccc; border-radius: 4px; font-size: 14px;">
+            </div>
+
+            <div style="display: flex; align-items: center;">
+                <label for="gate-location" style="width: 130px; font-weight: 500;">Gate Location:</label>
+                <select id="gate-location" style="flex: 1; height: 38px; padding: 5px 10px; border: 1px solid #ccc; border-radius: 4px; font-size: 14px;">
+                    <option value="">Loading...</option>
+                </select>
+            </div>
+
+        `,
+                confirmButtonText: 'Save',
+                showCancelButton: true,
+                didOpen: () => {
+                    fetchInactiveGate(scheduleHeadID);
+                },
+                preConfirm: () => {
+                    const data = getScheduleFormData(scheduleId, toyNumber);
+                    if (data.error) {
+                        Swal.showValidationMessage(data.error);
+                        return false;
+                    }
+                    return data;
+                }
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    insertScheduleData(result.value);
+                }
+            });
+        });
+
+        function getScheduleFormData(scheduleId, toyNumber) {
+            const startDate = $('#schedule-date-start').val(); // format: yyyy-MM-dd
+            const startTime = $('#schedule-time-start').val(); // format: HH:mm
+            const endDate = $('#schedule-date-end').val();     // format: yyyy-MM-dd
+            const endTime = $('#schedule-time-end').val();     // format: HH:mm
+            const gateLocation = $('#gate-location').val();
+
+            // Validasi
+            if (!startDate || !startTime || !endDate || !endTime || !gateLocation) {
+                return { error: 'Please fill in all required fields.' };
+            }
+
+            // Gabungkan tanggal dan waktu jadi format datetime yang valid
+            const startDateTime = new Date(`${startDate}T${startTime}`);
+            const endDateTime = new Date(`${endDate}T${endTime}`);
+
+            if (isNaN(startDateTime) || isNaN(endDateTime)) {
+                return { error: 'Invalid date or time format.' };
+            }
+            if (endDateTime < startDateTime) {
+                return { error: 'End date and time cannot be earlier than start date and time.' };
+            }
+
+            // Ubah ke format string yyyy-MM-dd HH:mm:ss
+            const formattedStart = `${startDateTime.getFullYear()}-${(startDateTime.getMonth() + 1).toString().padStart(2, '0')}-${startDateTime.getDate().toString().padStart(2, '0')} ${startDateTime.getHours().toString().padStart(2, '0')}:${startDateTime.getMinutes().toString().padStart(2, '0')}:00`;
+            const formattedEnd = `${endDateTime.getFullYear()}-${(endDateTime.getMonth() + 1).toString().padStart(2, '0')}-${endDateTime.getDate().toString().padStart(2, '0')} ${endDateTime.getHours().toString().padStart(2, '0')}:${endDateTime.getMinutes().toString().padStart(2, '0')}:00`;
+
+            return {
+                scheduleId: scheduleId,
+                toyNumber: toyNumber,
+                startDateTime: formattedStart,
+                endDateTime: formattedEnd,
+                gateLocation: gateLocation
+            };
+        }
+
+
+        function insertScheduleData(data) {
+            $.ajax({
+                url: inputDailySchedule, // Ganti sesuai route Controller ASP.NET kamu
+                type: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify(data),
+                success: function (response) {
+                    const plannerId = sessionStorage.getItem("userId") || "";
+                    const successMessage = response.message || "Schedule added successfully."; // <-- VAR PESAN
+                    insertAuditLog({
+                        AuditLog_TableName: "New Schedule Start",
+                        AuditLog_RecordID: "New Data",
+                        AuditLog_ActionTypeID: 9,
+                        AuditLog_ChangedBy: plannerId,
+                        AuditLog_ChangedAt: new Date().toISOString()
+                    }, successMessage);
+                },
+                error: function (xhr) {
+                    Swal.fire('Error', 'Failed to save schedule.', 'error');
+                    console.error(xhr.responseText);
+                }
+            });
+        }
+
+        function renderPagination() {
+            const totalPages = Math.ceil(totalRecords / itemsPerPage);
+            const paginationList = $('#pagination');
+
+            console.log("Current page:", currentPage, "Total Pages:", totalPages);
+
+            paginationList.empty();
+
+            // Prev
+            paginationList.append(`
+        <li>
+            <button id="prev-btn" type="button" class="px-3.5 py-2 rounded text-purple hover:text-white hover:bg-purple border border-purple/5 hover:border-purple bg-purple/10"
+                data-page="${currentPage - 1}" ${currentPage === 1 ? 'disabled' : ''}>
+                &laquo;
+            </button>
+        </li>
+    `);
+
+            // Pages
+            for (let i = 1; i <= totalPages; i++) {
+                const activeClass = i === currentPage ? 'bg-purple text-white' : '';
+                paginationList.append(`
+            <li>
+                <button id="page-${i}" type="button"
+                    class="px-3.5 py-2 rounded text-purple hover:text-white hover:bg-purple border border-purple/5 hover:border-purple ${activeClass}"
+                    data-page="${i}">
+                    ${i}
+                </button>
+            </li>
+        `);
+            }
+
+            // Next
+            paginationList.append(`
+        <li>
+            <button id="next-btn" type="button" class="px-3.5 py-2 rounded text-purple hover:text-white hover:bg-purple border border-purple/5 hover:border-purple bg-purple/10"
+                data-page="${currentPage + 1}" ${currentPage === totalPages ? 'disabled' : ''}>
+                &raquo;
+            </button>
+        </li>
+    `);
+        }
+
+
+
+
+        $(document).on('click', '[data-page]', function () {
+            const targetPage = parseInt($(this).data('page'));
+            const totalPages = Math.ceil(totalRecords / itemsPerPage);
+
+            if (targetPage >= 1 && targetPage <= totalPages) {
+                fetchSchedules(targetPage); // ini fetch ke backend
+            }
+        });
+
+
+    </script>
+
+</body>
+
+</html>

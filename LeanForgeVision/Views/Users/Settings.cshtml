@@ -1,0 +1,244 @@
+﻿
+@{
+    ViewBag.Title = "Users";
+    ViewBag.pTitle = "Profile Settings";
+    ViewBag.xData = "users";
+    ViewBag.ActiveItem = "settings";
+    Layout = null;
+    var imageUrl = Url.Content("~/assets/images/bg-main.png");
+}
+
+<!-- Start All Card -->
+
+<!DOCTYPE html>
+<html lang="en" :dir="$store.app.direction" x-data="{ direction: $store.app.direction }" x-bind:dir="direction" class="group/item" :data-mode="$store.app.mode" :data-sidebar="$store.app.sidebarMode">
+
+<head>
+    @Html.Partial("~/Views/Shared/title_meta.cshtml")
+
+
+    @Html.Partial("~/Views/Shared/head_css.cshtml")
+
+</head>
+
+<body x-data="main" x-init="$store.app.hasCreative = window.location.href.includes('creative.html') ,
+$store.app.hasdetached = window.location.href.includes('detached.html')" :class="[ $store.app.sidebar ?
+'toggle-sidebar' : '', $store.app.fullscreen ? 'full' : '' , $store.app.hasCreative ? 'detached ' : '' ,
+ $store.app.hasdetached ? 'detached detached-simple ' : '' , $store.app.layout  ]"
+      class="relative overflow-x-hidden text-sm antialiased font-normal text-black font-cerebri dark:text-white vertical  " x-data="modals">
+
+
+    <!-- Start Layout -->
+    <div class="bg-[#f9fbfd] dark:bg-dark">
+
+        <!-- Start detached bg -->
+        <div style="background-image: url('@imageUrl');" class="bg-black min-h-[220px] sm:min-h-[250px] bg-bottom fixed hidden w-full -z-50 detached-img"></div>
+
+        <!-- End detached bg -->
+        <!-- Start Menu Sidebar Olverlay -->
+        <div x-cloak class="fixed inset-0 bg-black/60 dark:bg-dark/90 z-10 lg:hidden" :class="{'hidden' : !$store.app.sidebar}" @@click="$store.app.toggleSidebar()"></div>
+        <!-- End Menu Sidebar Olverlay -->
+        <!-- Start Main Content -->
+        <div class="flex mx-auto main-container">
+
+
+            @Html.Partial("~/Views/Shared/Sidebar.cshtml")
+
+            <!-- Start Content Area -->
+            <div class="flex-1 main-content">
+
+                @Html.Partial("~/Views/Shared/Topbar.cshtml")
+
+                <!-- Start Content -->
+                <div class="h-[calc(100vh-60px)]  relative overflow-y-auto overflow-x-hidden p-4 space-y-4 detached-content">
+
+                    <div class="grid grid-cols-12 gap-4">
+                        <div class="col-span-12 ">
+
+                            @Html.Partial("~/Views/Shared/Page_Title.cshtml")
+                            <!-- Start All Card -->
+                            <div class="flex flex-col gap-4 min-h-[calc(100vh-212px)] mt-4">
+                                <div class="grid w-full grid-cols-1 gap-4 lg:grid-cols-1 2xl:grid-cols-3">
+                                    <div class="flex items-center justify-between gap-6 p-5 bg-white border rounded dark:bg-darklight dark:border-darkborder border-black/10">
+                                        <div>
+                                            <span id="percentageTotalOrdersPlannedYesterdayAndToday" class="p-1 text-sm leading-none rounded-md bg-info/20 text-info">Loading...</span>
+                                            <p class="text-base dark:text-white/80">Daily Planned</p>
+                                            <div>
+                                                <h4 id="totalOrdersPlanned" class="text-2xl font-semibold text-black dark:text-white">
+                                                    Loading...
+                                                </h4>
+
+                                            </div>
+
+                                            <p class="text-muted">Today</p>
+                                        </div>
+                                        <div>
+                                            <div id="chartTotalOrdersPlannedWeekly" dir="ltr"></div>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-center justify-between gap-6 p-5 bg-white border rounded dark:bg-darklight dark:border-darkborder border-black/10">
+                                        <div>
+                                            <span id="percentageTotalToySortedYesterdayAndToday" class="p-1 text-sm leading-none rounded-md bg-info/20 text-info">Loading...</span>
+                                            <p class="text-base dark:text-white/80">Processed</p>
+                                            <div>
+                                                <h4 id="totalOrdersProcessed" class="text-2xl font-semibold text-black dark:text-white">
+                                                    Loading...
+                                                </h4>
+
+                                            </div>
+                                            <p class="mt-3 mb-0 text-muted">Goods</p>
+                                        </div>
+                                        <div>
+                                            <div id="chartTotalSortedWeekly" dir="ltr"></div>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-center justify-between gap-6 p-5 bg-white border rounded dark:bg-darklight dark:border-darkborder border-black/10">
+                                        <div>
+                                            <span id="percentageTotalGateActiveYesterdayAndToday" class="p-1 text-sm leading-none rounded-md bg-danger/20 text-danger">Loading...</span>
+                                            <p class="text-base dark:text-white/80">Active Gate</p>
+                                            <h4 id="totalActiveGate" class="flex items-center gap-4 mt-3 text-2xl font-semibold text-black dark:text-white">
+                                                Loading...
+                                            </h4>
+                                            <p class="mt-3 mb-0 text-muted">Gate</p>
+                                        </div>
+                                        <div>
+                                            <div id="chartTotalGateActiveWeekly" dir="ltr"></div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="grid grid-cols-1 gap-4 md:grid-cols-1">
+                                    <div class="gap-6 p-5 bg-white border rounded dark:bg-darklight dark:border-darkborder border-black/10">
+                                        <h2 class="mb-4 text-base font-semibold text-black capitalize dark:text-white/80">Planned Schedule</h2>
+                                        <button type="button" id="addUserBtn" class="btn text-success border-success hover:bg-success hover:text-white">
+                                            Add User
+                                        </button>
+
+                                        <div class="overflow-auto mt-6">
+                                            <table class="min-w-[640px] w-full">
+                                                <thead>
+                                                    <tr class="ltr:text-left rtl:text-right">
+                                                        <th>User ID</th>
+                                                        <th>Username</th>
+                                                        <th>Role</th>
+                                                        <th>Registered Email</th>
+                                                        <th>Actions</th>
+                                                    </tr>
+                                                </thead>
+
+                                                <tbody id="user-body">
+                                                    <!-- Data dari AJAX akan dimasukkan ke sini -->
+                                                </tbody>
+
+                                            </table>
+                                        </div>
+
+
+                                        <div class="overflow-auto">
+                                            <div class="flex justify-end">
+                                                <ul id="pagination" class="inline-flex items-center gap-1 mb-4">
+                                                    <!-- tombol akan diisi secara dinamis oleh JS -->
+                                                </ul>
+                                            </div>
+                                        </div>
+
+
+                                    </div>
+                                </div>
+
+
+
+
+                            </div>
+                            <!-- End All Card -->
+                        </div>
+
+
+                    </div>
+
+
+                    @Html.Partial("~/Views/Shared/Footer.cshtml")
+
+                </div>
+                <!-- End Content -->
+            </div>
+            <!-- End Content Area -->
+        </div>
+    </div>
+    <!-- End Layout -->
+    <!-- All javascirpt -->
+    @Html.Partial("~/Views/Shared/Vendor_Scripts.cshtml")
+
+    <script src="~/assets/libs/apexcharts/apexcharts.min.js"></script>
+
+    <script src="~/assets/js/main.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="~/assets/js/pages/appexchart-app.js"></script>
+    <!-- Selectize.js CSS dan JS -->
+    <link href="https://cdn.jsdelivr.net/npm/selectize@0.12.6/dist/css/selectize.default.css" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/selectize@0.12.6/dist/js/standalone/selectize.min.js"></script>
+
+    <script>
+        var fetchUserManagementUrl = '@Url.Action("GetUserName", "User")';
+
+        $(document).ready(function () {
+            fetchUsers(renderUserTable); // Ambil data, lalu render ke tabel
+        });
+
+        function fetchUsers(callback) {
+            $.ajax({
+                url: fetchUserManagementUrl,
+                type: 'GET',
+                dataType: 'json',
+                success: function (data) {
+                    if (typeof callback === "function") {
+                        callback(data);
+                    }
+                },
+                error: function (xhr, status, error) {
+                    console.error("Failed to fetch user data:", error);
+                    if (typeof callback === "function") {
+                        callback(null);
+                    }
+                }
+            });
+        }
+
+        function renderUserTable(data) {
+            const tbody = $("#user-body");
+            tbody.empty();
+
+            if (data && data.length > 0) {
+                data.forEach(user => {
+                    const row = `
+                <tr>
+                    <td>${user.User_ID}</td>
+                    <td>${user.Username}</td>
+                    <td>${user.RoleName}</td>
+                    <td>${user.Email}</td>
+                    <td>
+                        <button class="btn bg-warning border-warning text-white hover:bg-warning/[0.85] hover:border-warning/[0.85]">Edit</button>
+                        <button class="btn bg-danger border-danger text-white hover:bg-danger/[0.85] hover:border-danger/[0.85]">Delete</button>
+                    </td>
+                </tr>
+            `;
+                    tbody.append(row);
+                });
+            } else {
+                tbody.append(`
+            <tr>
+                <td colspan="5" class="text-center text-muted">No data available</td>
+            </tr>
+        `);
+            }
+        }
+
+
+
+    </script>
+
+
+</body>
+
+</html>

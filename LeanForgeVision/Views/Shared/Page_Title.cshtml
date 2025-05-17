@@ -1,0 +1,20 @@
+﻿<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+<!-- Start Breadcrumb -->
+<div class="flex justify-between items-center w-full">
+    <nav class="w-full">
+        <ul class="space-y-2 detached-breadcrumb">
+            <li class="text-xs dark:text-white/80">@ViewBag.Title</li>
+            <li class="text-xl font-semibold text-black dark:text-white">@ViewBag.pTitle</li>
+            <li class="text-sm text-muted">@DateTime.Now.ToString("dd MMMM yyyy")</li>
+        </ul>
+    </nav>
+
+    <!-- Timer countdown di pojok kanan -->
+    <div id="countdown" class="flex items-center gap-1 text-red-500 text-xl pr-2">
+        <i class="fa fa-clock"></i>
+        <span id="timer">10</span>s
+    </div>
+
+</div>
+<!-- End Breadcrumb -->

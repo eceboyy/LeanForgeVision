@@ -1,0 +1,377 @@
+﻿
+@{
+    ViewBag.Title = "LeanForge Vision";
+    ViewBag.pTitle = "Dashboard";
+    ViewBag.xData = "dashboard";
+    ViewBag.ActiveItem = "default";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<!-- Start All Card -->
+<div class="flex flex-col gap-4 min-h-[calc(100vh-212px)]">
+
+
+    <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4">
+        <div class="flex items-center justify-between gap-6 p-5 bg-white border rounded dark:bg-darklight dark:border-darkborder border-black/10">
+            <div>
+                <span id="percentageTotalOrdersPlannedYesterdayAndToday" class="p-1 text-sm leading-none rounded-md bg-info/20 text-info">Loading...</span>
+                <p class="text-base dark:text-white/80">Daily Planned</p>
+                <div>
+                    <h4 id="totalOrdersPlanned" class="text-2xl font-semibold text-black dark:text-white">
+                        Loading...
+                    </h4>
+                </div>
+
+                <p class="text-muted">Today</p>
+            </div>
+
+            <div>
+                <div id="chartTotalOrdersPlanned" dir="ltr"></div>
+            </div>
+        </div>
+        <div class="flex items-center justify-between gap-6 p-5 bg-white border rounded dark:bg-darklight dark:border-darkborder border-black/10">
+            <div>
+                <span id="percentageTotalToySortedYesterdayAndToday" class="p-1 text-sm leading-none rounded-md bg-info/20 text-info">Loading...</span>
+                <p class="text-base dark:text-white/80">Processed</p>
+                <div>
+                    <h4 id="totalOrdersProcessed" class="text-2xl font-semibold text-black dark:text-white">
+                        Loading...
+                    </h4>
+
+                </div>
+                <p class="text-muted">Sorted</p>
+            </div>
+            <div>
+                <div id="chart2" dir="ltr"></div>
+            </div>
+        </div>
+        <div class="flex items-center justify-between gap-6 p-5 bg-white border rounded dark:bg-darklight dark:border-darkborder border-black/10">
+            <div>
+                <span id="percentageTotalToyPendingYesterdayAndToday" class="p-1 text-sm leading-none rounded-md bg-info/20 text-info">Loading...</span>
+                <p class="text-base dark:text-white/80">Pending</p>
+                <div>
+                    <h4 id="totalOrdersPending" class="text-2xl font-semibold text-black dark:text-white">
+                        Loading...
+                    </h4>
+
+                </div>
+
+                <p class="text-muted">Unsorted</p>
+            </div>
+            <div>
+                <div id="chart4" dir="ltr"></div>
+            </div>
+        </div>
+        <div class="flex items-center justify-between gap-6 p-5 bg-white border rounded dark:bg-darklight dark:border-darkborder border-black/10">
+            <div>
+                <p class="text-base dark:text-white/80">Issues</p>
+                <h4 id="totalIssueReported" class="flex items-center gap-4 mt-3 text-2xl font-semibold text-black dark:text-white">
+                    ...
+                    <span class="p-1 text-sm leading-none rounded-md bg-success/20 text-success">82%</span>
+                </h4>
+                <p class="text-muted">Today</p>
+            </div>
+            <div>
+                <div id="chart3" dir="ltr"></div>
+            </div>
+        </div>
+    </div>
+
+    <!--------------------------------------------------------------------------------- Chart Location Percentage   ------------------------------------------------------------------------------------------------>
+    <div id="chartContainerProgress" class="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-3">
+        <!-- Chart containers will be dynamically inserted here -->
+    </div>
+
+
+</div>
+<!-- End All Card -->
+
+
+<script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+@section scripts{
+
+    <script src="~/assets/libs/apexcharts/apexcharts.min.js"></script>
+    <script src="~/assets/js/pages/appexchart-app.js"></script>
+    <script src="~/assets/js/main.js"></script>
+
+
+    <script>
+        var fetchpercentageTotalToyPendingYesterdayAndTodayUrl = '@Url.Action("GetYesterdayAndTodayPlanAndSortedTotals", "Shipping")';
+        var fetchSortedAndRemainingForChart= '@Url.Action("GetDailyPlanGateJson", "Gate")';
+        const ordersData = [
+
+
+            {
+                id: "totalIssueReported",
+                total: 7714,
+                percentage: 82,
+                description: "Today"
+            }
+        ];
+
+        $(document).ready(function () {
+            updatePercentageTotalToyPendingYesterdayAndToday();
+            fetchChartData();
+
+        });
+        function fetchChartData() {
+            $.ajax({
+                url: fetchSortedAndRemainingForChart,  // URL untuk endpoint JSON
+                type: 'GET',                         // Tipe request
+                dataType: 'json',                    // Mengharapkan data berupa JSON
+                success: function (data) {
+                    if (data && data.length > 0) {
+                        // Data berhasil diterima, lanjutkan dengan chart dan pembaruan lainnya
+                        console.log(data);  // Cek data yang diterima
+                        generateDonutChartsFromData(data);
+                        updateAllOrderStats(data);
+                        createApexChartTotalOrdersPlanned("#chartTotalOrdersPlanned", getTotalPlannedData(data), "#228B22");
+                    } else {
+                        console.error("Data kosong atau tidak valid!");
+                    }
+                },
+                error: function (xhr, status, error) {
+                    console.error("Terjadi kesalahan saat mengambil data:", error);
+                }
+            });
+        }
+
+        function getTotalPlannedData(data) {
+            return data.map(item => item.TotalPlanned);  // Ambil TotalPlanned dari setiap item
+        }
+
+        // Fungsi untuk memperbarui statistik berdasarkan data yang diterima
+        function updateAllOrderStats(data) {
+            data.forEach(order => {
+                const id = `order-stats-${order.Gate_ID}`;  // ID untuk setiap order
+                const total = order.TotalPlanned;
+                const percentage = order.TotalPlanned > 0 ? (order.TotalSorted / order.TotalPlanned) * 100 : 0;
+                updateOrderStats(id, total, percentage.toFixed(1));  // Menampilkan persentase dengan 1 desimal
+            });
+        }
+
+        // Fungsi untuk memperbarui order stats
+        function updateOrderStats(id, total, percentage) {
+            const element = document.getElementById(id);
+            if (element) {
+                element.innerHTML = `
+                ${total}
+                <span class="p-1 text-sm leading-none rounded-md ${percentage >= 20 ? "bg-success/20 text-success" : "bg-danger/20 text-danger"}">
+                    ${percentage}%
+                </span>
+            `;
+            }
+        }
+
+        // Fungsi untuk menghasilkan grafik donut berdasarkan data
+        function generateDonutChartsFromData(data) {
+            const chartContainer = document.getElementById("chartContainerProgress");
+            if (!chartContainer) {
+                console.error("Elemen chartContainerProgress tidak ditemukan!");
+                return;
+            }
+
+            chartContainer.innerHTML = "";  // Kosongkan kontainer chart
+
+            data.forEach(item => {
+                const chartWrapper = document.createElement("div");
+                chartWrapper.className = "flex flex-col items-center justify-between gap-4 p-4 bg-white border rounded dark:bg-darklight dark:border-darkborder border-black/10";
+                chartWrapper.style.height = "450px";
+
+                const chartTitle = document.createElement("h2");
+                chartTitle.className = "text-base font-semibold text-black capitalize dark:text-white/80";
+                chartTitle.innerText = `${item.Gate_Name}`;
+
+                const chartElement = document.createElement("div");
+                chartElement.id = `chart-${item.Gate_ID}`;
+                chartElement.className = "w-full";
+                chartElement.style.height = "300px";
+                chartElement.setAttribute("dir", "ltr");
+
+                chartWrapper.appendChild(chartTitle);
+                chartWrapper.appendChild(chartElement);
+                chartContainer.appendChild(chartWrapper);
+            });
+
+            setTimeout(() => {
+                data.forEach(item => {
+                    const chartElement = document.getElementById(`chart-${item.Gate_ID}`);
+                    if (chartElement) {
+                        new ApexCharts(chartElement, createChartOptions(item.TotalPlanned, item.TotalSorted, ['#228B22', '#e60000'])).render();
+                    } else {
+                        console.error(`Chart element tidak ditemukan: chart-${item.Gate_ID}`);
+                    }
+                });
+            }, 100);
+        }
+
+        // Fungsi untuk membuat opsi grafik donut
+        function createChartOptions(total, sorted, colors) {
+            return {
+                chart: {
+                    type: 'donut',
+                    height: 300
+                },
+                labels: ['Loaded', 'Remaining'],
+                series: [sorted, total - sorted],
+                colors: colors,
+                legend: { position: 'bottom' },
+                dataLabels: { enabled: false },
+                plotOptions: {
+                    pie: {
+                        donut: { size: '70%' }
+                    }
+                }
+            };
+        }
+        function updatePercentageTotalToyPendingYesterdayAndToday() {
+            $.ajax({
+                url: fetchpercentageTotalToyPendingYesterdayAndTodayUrl,
+                type: 'GET',
+                success: function (response) {
+                    var percentage = Math.floor(response.comparison.pendingPercentageChange);
+                    var status = response.comparison.pendingStatus;
+
+                    var span = $('#percentageTotalToyPendingYesterdayAndToday');
+
+                    // Update text
+                    span.text(percentage + "%");
+
+                    // Reset semua class style dulu
+                    span.removeClass('text-success text-danger bg-success/20 bg-danger/20 font-bold text-info bg-info/20');
+
+                    // Tambah class sesuai status
+                    if (status.toLowerCase() === "increase") {
+                        span.addClass('text-success bg-success/20 font-bold');
+                    } else if (status.toLowerCase() === "decrease") {
+                        span.addClass('text-danger bg-danger/20 font-bold');
+                    } else {
+                        // Default style kalau status aneh
+                        span.addClass('text-info bg-info/20');
+                    }
+                },
+                error: function () {
+                    console.error('Gagal mengambil data pending percentage');
+                }
+            });
+        }
+
+
+
+        function updateOrderStats(id, total, percentage) {
+            const element = document.getElementById(id);
+            if (element) {
+                element.innerHTML = `
+            ${total}
+            <span class="p-1 text-sm leading-none rounded-md ${percentage >= 20 ? "bg-success/20 text-success" : "bg-danger/20 text-danger"}">
+                ${percentage}%
+            </span>
+        `;
+            }
+        }
+
+        //function generateDummyDonutCharts() {
+        //    const chartContainer = document.getElementById("chartContainerProgress");
+        //    if (!chartContainer) {
+        //        console.error("Elemen chartContainerProgress tidak ditemukan!");
+        //        return;
+        //    }
+
+        //    chartContainer.innerHTML = "";
+
+        //    const dummyData = [
+        //        { gate: "1", total: 100, sorted: 40 },
+        //        { gate: "2", total: 120, sorted: 50 },
+        //        { gate: "3", total: 80, sorted: 30 },
+        //        { gate: "4", total: 80, sorted: 30 }
+        //    ];
+
+        //    dummyData.forEach(data => {
+        //        const chartWrapper = document.createElement("div");
+        //        chartWrapper.className = "flex flex-col items-center justify-between gap-4 p-4 bg-white border rounded dark:bg-darklight dark:border-darkborder border-black/10";
+        //        chartWrapper.style.height = "450px";
+
+        //        const chartTitle = document.createElement("h2");
+        //        chartTitle.className = "text-base font-semibold text-black capitalize dark:text-white/80";
+        //        chartTitle.innerText = `Gate ${data.gate}`;
+
+        //        const chartElement = document.createElement("div");
+        //        chartElement.id = `chart-${data.gate}`;
+        //        chartElement.className = "w-full";
+        //        chartElement.style.height = "300px";
+        //        chartElement.setAttribute("dir", "ltr");
+
+        //        chartWrapper.appendChild(chartTitle);
+        //        chartWrapper.appendChild(chartElement);
+        //        chartContainer.appendChild(chartWrapper);
+        //    });
+
+        //    setTimeout(() => {
+        //        dummyData.forEach(data => {
+        //            const chartElement = document.getElementById(`chart-${data.gate}`);
+        //            if (chartElement) {
+        //                new ApexCharts(chartElement, createChartOptions(data.total, data.sorted, ['#228B22', '#e60000'])).render();
+        //            } else {
+        //                console.error(`Chart element tidak ditemukan: chart-${data.gate}`);
+        //            }
+        //        });
+        //    }, 100);
+        //}
+
+        //function createChartOptions(total, sorted, colors) {
+        //    return {
+        //        chart: {
+        //            type: 'donut',
+        //            height: 300
+        //        },
+        //        labels: ['Loaded', 'Remaining'],
+        //        series: [sorted, total - sorted],
+        //        colors: colors,
+        //        legend: { position: 'bottom' },
+        //        dataLabels: { enabled: false },
+        //        plotOptions: {
+        //            pie: {
+        //                donut: { size: '70%' }
+        //            }
+        //        }
+        //    };
+        //}
+
+        //function createApexChartTotalOrdersPlanned(selector, data, color) {
+        //    var options = {
+        //        series: [{ data: data }],
+        //        chart: {
+        //            height: 60,
+        //            type: "line",
+        //            fontFamily: "Nunito, sans-serif",
+        //            sparkline: { enabled: true },
+        //            dropShadow: { enabled: false },
+        //        },
+        //        stroke: {
+        //            curve: "smooth",
+        //            width: 2,
+        //        },
+        //        colors: [color],
+        //        grid: {
+        //            padding: { top: 5, bottom: 5, left: 5, right: 5 },
+        //        },
+        //        tooltip: {
+        //            x: { show: false },
+        //            y: {
+        //                title: { formatter: () => "" },
+        //            },
+        //        },
+        //    };
+
+        //    var chart = new ApexCharts(document.querySelector(selector), options);
+        //    chart.render();
+        //    return chart;
+        //}
+
+    </script>
+
+}

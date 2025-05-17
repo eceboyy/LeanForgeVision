@@ -1,0 +1,235 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\kevin\\source\\repos\\LeanForgeVision\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{63C632D3-49C0-49E0-A628-E76AF4EAECA0}|LeanForgeVision\\LeanForgeVision.csproj|c:\\users\\kevin\\source\\repos\\leanforgevision\\leanforgevision\\global.asax.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{63C632D3-49C0-49E0-A628-E76AF4EAECA0}|LeanForgeVision\\LeanForgeVision.csproj|solutionrelative:leanforgevision\\global.asax.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{63C632D3-49C0-49E0-A628-E76AF4EAECA0}|LeanForgeVision\\LeanForgeVision.csproj|C:\\Users\\kevin\\source\\repos\\LeanForgeVision\\leanforgevision\\database\\dbconnection.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{63C632D3-49C0-49E0-A628-E76AF4EAECA0}|LeanForgeVision\\LeanForgeVision.csproj|solutionrelative:leanforgevision\\database\\dbconnection.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{63C632D3-49C0-49E0-A628-E76AF4EAECA0}|LeanForgeVision\\LeanForgeVision.csproj|c:\\users\\kevin\\source\\repos\\leanforgevision\\leanforgevision\\controllers\\gatecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{63C632D3-49C0-49E0-A628-E76AF4EAECA0}|LeanForgeVision\\LeanForgeVision.csproj|solutionrelative:leanforgevision\\controllers\\gatecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{63C632D3-49C0-49E0-A628-E76AF4EAECA0}|LeanForgeVision\\LeanForgeVision.csproj|c:\\users\\kevin\\source\\repos\\leanforgevision\\leanforgevision\\controllers\\formscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{63C632D3-49C0-49E0-A628-E76AF4EAECA0}|LeanForgeVision\\LeanForgeVision.csproj|solutionrelative:leanforgevision\\controllers\\formscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{63C632D3-49C0-49E0-A628-E76AF4EAECA0}|LeanForgeVision\\LeanForgeVision.csproj|c:\\users\\kevin\\source\\repos\\leanforgevision\\leanforgevision\\views\\dashboard\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{63C632D3-49C0-49E0-A628-E76AF4EAECA0}|LeanForgeVision\\LeanForgeVision.csproj|solutionrelative:leanforgevision\\views\\dashboard\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{63C632D3-49C0-49E0-A628-E76AF4EAECA0}|LeanForgeVision\\LeanForgeVision.csproj|c:\\users\\kevin\\source\\repos\\leanforgevision\\leanforgevision\\views\\shipping\\order.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{63C632D3-49C0-49E0-A628-E76AF4EAECA0}|LeanForgeVision\\LeanForgeVision.csproj|solutionrelative:leanforgevision\\views\\shipping\\order.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{63C632D3-49C0-49E0-A628-E76AF4EAECA0}|LeanForgeVision\\LeanForgeVision.csproj|C:\\Users\\kevin\\source\\repos\\LeanForgeVision\\leanforgevision\\views\\dashboard\\location.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{63C632D3-49C0-49E0-A628-E76AF4EAECA0}|LeanForgeVision\\LeanForgeVision.csproj|solutionrelative:leanforgevision\\views\\dashboard\\location.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{63C632D3-49C0-49E0-A628-E76AF4EAECA0}|LeanForgeVision\\LeanForgeVision.csproj|C:\\Users\\kevin\\source\\repos\\LeanForgeVision\\leanforgevision\\views\\shared\\vendor_scripts.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{63C632D3-49C0-49E0-A628-E76AF4EAECA0}|LeanForgeVision\\LeanForgeVision.csproj|solutionrelative:leanforgevision\\views\\shared\\vendor_scripts.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{63C632D3-49C0-49E0-A628-E76AF4EAECA0}|LeanForgeVision\\LeanForgeVision.csproj|C:\\Users\\kevin\\source\\repos\\LeanForgeVision\\leanforgevision\\controllers\\mqttcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{63C632D3-49C0-49E0-A628-E76AF4EAECA0}|LeanForgeVision\\LeanForgeVision.csproj|solutionrelative:leanforgevision\\controllers\\mqttcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{63C632D3-49C0-49E0-A628-E76AF4EAECA0}|LeanForgeVision\\LeanForgeVision.csproj|C:\\Users\\kevin\\source\\repos\\LeanForgeVision\\leanforgevision\\views\\users\\settings.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{63C632D3-49C0-49E0-A628-E76AF4EAECA0}|LeanForgeVision\\LeanForgeVision.csproj|solutionrelative:leanforgevision\\views\\users\\settings.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{63C632D3-49C0-49E0-A628-E76AF4EAECA0}|LeanForgeVision\\LeanForgeVision.csproj|C:\\Users\\kevin\\source\\repos\\LeanForgeVision\\leanforgevision\\controllers\\usercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{63C632D3-49C0-49E0-A628-E76AF4EAECA0}|LeanForgeVision\\LeanForgeVision.csproj|solutionrelative:leanforgevision\\controllers\\usercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{63C632D3-49C0-49E0-A628-E76AF4EAECA0}|LeanForgeVision\\LeanForgeVision.csproj|C:\\Users\\kevin\\source\\repos\\LeanForgeVision\\leanforgevision\\controllers\\userscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{63C632D3-49C0-49E0-A628-E76AF4EAECA0}|LeanForgeVision\\LeanForgeVision.csproj|solutionrelative:leanforgevision\\controllers\\userscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{63C632D3-49C0-49E0-A628-E76AF4EAECA0}|LeanForgeVision\\LeanForgeVision.csproj|C:\\Users\\kevin\\source\\repos\\LeanForgeVision\\leanforgevision\\models\\user.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{63C632D3-49C0-49E0-A628-E76AF4EAECA0}|LeanForgeVision\\LeanForgeVision.csproj|solutionrelative:leanforgevision\\models\\user.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 1,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "DbConnection.cs",
+              "DocumentMoniker": "C:\\Users\\kevin\\source\\repos\\LeanForgeVision\\LeanForgeVision\\Database\\DbConnection.cs",
+              "RelativeDocumentMoniker": "LeanForgeVision\\Database\\DbConnection.cs",
+              "ToolTip": "C:\\Users\\kevin\\source\\repos\\LeanForgeVision\\LeanForgeVision\\Database\\DbConnection.cs",
+              "RelativeToolTip": "LeanForgeVision\\Database\\DbConnection.cs",
+              "ViewState": "AgIAAB8FAAAAAAAAAAAcwDsFAABGAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-03-17T13:11:53.733Z",
+              "IsPinned": true,
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "Global.asax.cs",
+              "DocumentMoniker": "C:\\Users\\kevin\\source\\repos\\LeanForgeVision\\LeanForgeVision\\Global.asax.cs",
+              "RelativeDocumentMoniker": "LeanForgeVision\\Global.asax.cs",
+              "ToolTip": "C:\\Users\\kevin\\source\\repos\\LeanForgeVision\\LeanForgeVision\\Global.asax.cs",
+              "RelativeToolTip": "LeanForgeVision\\Global.asax.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-17T10:41:31.022Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "GateController.cs",
+              "DocumentMoniker": "C:\\Users\\kevin\\source\\repos\\LeanForgeVision\\LeanForgeVision\\Controllers\\GateController.cs",
+              "RelativeDocumentMoniker": "LeanForgeVision\\Controllers\\GateController.cs",
+              "ToolTip": "C:\\Users\\kevin\\source\\repos\\LeanForgeVision\\LeanForgeVision\\Controllers\\GateController.cs",
+              "RelativeToolTip": "LeanForgeVision\\Controllers\\GateController.cs",
+              "ViewState": "AgIAADkAAAAAAAAAAAAwwE8AAAA7AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-17T04:12:38.861Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "FormsController.cs",
+              "DocumentMoniker": "C:\\Users\\kevin\\source\\repos\\LeanForgeVision\\LeanForgeVision\\Controllers\\FormsController.cs",
+              "RelativeDocumentMoniker": "LeanForgeVision\\Controllers\\FormsController.cs",
+              "ToolTip": "C:\\Users\\kevin\\source\\repos\\LeanForgeVision\\LeanForgeVision\\Controllers\\FormsController.cs",
+              "RelativeToolTip": "LeanForgeVision\\Controllers\\FormsController.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-17T04:12:38.275Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "Index.cshtml",
+              "DocumentMoniker": "C:\\Users\\kevin\\source\\repos\\LeanForgeVision\\LeanForgeVision\\Views\\Dashboard\\Index.cshtml",
+              "RelativeDocumentMoniker": "LeanForgeVision\\Views\\Dashboard\\Index.cshtml",
+              "ToolTip": "C:\\Users\\kevin\\source\\repos\\LeanForgeVision\\LeanForgeVision\\Views\\Dashboard\\Index.cshtml",
+              "RelativeToolTip": "LeanForgeVision\\Views\\Dashboard\\Index.cshtml",
+              "ViewState": "AgIAAFEAAAAAAAAAAAAAAGgAAABQAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-05-17T04:12:01.213Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "Location.cshtml",
+              "DocumentMoniker": "C:\\Users\\kevin\\source\\repos\\LeanForgeVision\\LeanForgeVision\\Views\\Dashboard\\Location.cshtml",
+              "RelativeDocumentMoniker": "LeanForgeVision\\Views\\Dashboard\\Location.cshtml",
+              "ToolTip": "C:\\Users\\kevin\\source\\repos\\LeanForgeVision\\LeanForgeVision\\Views\\Dashboard\\Location.cshtml",
+              "RelativeToolTip": "LeanForgeVision\\Views\\Dashboard\\Location.cshtml",
+              "ViewState": "AgIAANcCAAAAAAAAAAAnwPMCAABiAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-05-14T13:16:52.918Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "Vendor_Scripts.cshtml",
+              "DocumentMoniker": "C:\\Users\\kevin\\source\\repos\\LeanForgeVision\\LeanForgeVision\\Views\\Shared\\Vendor_Scripts.cshtml",
+              "RelativeDocumentMoniker": "LeanForgeVision\\Views\\Shared\\Vendor_Scripts.cshtml",
+              "ToolTip": "C:\\Users\\kevin\\source\\repos\\LeanForgeVision\\LeanForgeVision\\Views\\Shared\\Vendor_Scripts.cshtml",
+              "RelativeToolTip": "LeanForgeVision\\Views\\Shared\\Vendor_Scripts.cshtml",
+              "ViewState": "AgIAADAAAAAAAAAAAAAYwDkAAAAoAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-05-14T12:38:46.402Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "MqttController.cs",
+              "DocumentMoniker": "C:\\Users\\kevin\\source\\repos\\LeanForgeVision\\LeanForgeVision\\Controllers\\MqttController.cs",
+              "RelativeDocumentMoniker": "LeanForgeVision\\Controllers\\MqttController.cs",
+              "ToolTip": "C:\\Users\\kevin\\source\\repos\\LeanForgeVision\\LeanForgeVision\\Controllers\\MqttController.cs",
+              "RelativeToolTip": "LeanForgeVision\\Controllers\\MqttController.cs",
+              "ViewState": "AgIAAAwAAAAAAAAAAAAAABoAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-13T14:40:38.039Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "Settings.cshtml",
+              "DocumentMoniker": "C:\\Users\\kevin\\source\\repos\\LeanForgeVision\\LeanForgeVision\\Views\\Users\\Settings.cshtml",
+              "RelativeDocumentMoniker": "LeanForgeVision\\Views\\Users\\Settings.cshtml",
+              "ToolTip": "C:\\Users\\kevin\\source\\repos\\LeanForgeVision\\LeanForgeVision\\Views\\Users\\Settings.cshtml",
+              "RelativeToolTip": "LeanForgeVision\\Views\\Users\\Settings.cshtml",
+              "ViewState": "AgIAAMoAAAAAAAAAAAAYwN0AAAAgAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-05-13T13:01:23.719Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "Order.cshtml",
+              "DocumentMoniker": "C:\\Users\\kevin\\source\\repos\\LeanForgeVision\\LeanForgeVision\\Views\\Shipping\\Order.cshtml",
+              "RelativeDocumentMoniker": "LeanForgeVision\\Views\\Shipping\\Order.cshtml",
+              "ToolTip": "C:\\Users\\kevin\\source\\repos\\LeanForgeVision\\LeanForgeVision\\Views\\Shipping\\Order.cshtml",
+              "RelativeToolTip": "LeanForgeVision\\Views\\Shipping\\Order.cshtml",
+              "ViewState": "AgIAADYBAAAAAAAAAAAAAFUBAAA+AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-05-13T13:00:36.707Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 11,
+              "Title": "UsersController.cs",
+              "DocumentMoniker": "C:\\Users\\kevin\\source\\repos\\LeanForgeVision\\LeanForgeVision\\Controllers\\UsersController.cs",
+              "RelativeDocumentMoniker": "LeanForgeVision\\Controllers\\UsersController.cs",
+              "ToolTip": "C:\\Users\\kevin\\source\\repos\\LeanForgeVision\\LeanForgeVision\\Controllers\\UsersController.cs",
+              "RelativeToolTip": "LeanForgeVision\\Controllers\\UsersController.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-13T12:58:50.723Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 10,
+              "Title": "UserController.cs",
+              "DocumentMoniker": "C:\\Users\\kevin\\source\\repos\\LeanForgeVision\\LeanForgeVision\\Controllers\\UserController.cs",
+              "RelativeDocumentMoniker": "LeanForgeVision\\Controllers\\UserController.cs",
+              "ToolTip": "C:\\Users\\kevin\\source\\repos\\LeanForgeVision\\LeanForgeVision\\Controllers\\UserController.cs",
+              "RelativeToolTip": "LeanForgeVision\\Controllers\\UserController.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABoAAAAJAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-13T12:57:52.13Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 12,
+              "Title": "User.cs",
+              "DocumentMoniker": "C:\\Users\\kevin\\source\\repos\\LeanForgeVision\\LeanForgeVision\\Models\\User.cs",
+              "RelativeDocumentMoniker": "LeanForgeVision\\Models\\User.cs",
+              "ToolTip": "C:\\Users\\kevin\\source\\repos\\LeanForgeVision\\LeanForgeVision\\Models\\User.cs",
+              "RelativeToolTip": "LeanForgeVision\\Models\\User.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABIAAAAaAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-13T12:32:49.18Z"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

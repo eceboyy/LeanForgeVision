@@ -1,0 +1,85 @@
+﻿
+@{
+    ViewBag.Title = "Signin";
+    Layout = "~/Views/Shared/BlankLayout.cshtml";
+}
+
+
+<!-- Start Main Content -->
+<div class="min-h-[calc(100vh-134px)] py-4 px-4 sm:px-12 flex justify-center items-center max-w-[1440px] mx-auto">
+    <div class="max-w-[550px] flex-none w-full bg-white border border-black/10 p-6 sm:p-10 lg:px-10 lg:py-14 rounded-2xl loginform dark:bg-darklight dark:border-darkborder">
+        <h1 class="mb-2 text-2xl font-semibold text-center dark:text-white">Sign In</h1>
+        <p class="text-center text-muted mb-7 dark:text-darkmuted">Enter your ID and password to sign in!</p>
+
+
+        <form class="space-y-4" id="loginForm">
+            <div>
+                <input type="text" id="userId" placeholder="ID" class="form-input w-full" required>
+            </div>
+            <div>
+                <input type="password" id="userPassword" placeholder="Password" class="form-input w-full" required>
+            </div>
+            <div class="ltr:text-right rtl:text-left">
+                <a href="/authentication/resetpw" class="text-black dark:text-white">Forgot Password?</a>
+            </div>
+
+            <!-- Grid untuk membuat tombol sejajar -->
+            <div class="flex gap-4">
+                <button type="submit" id="changePasswordBtn" class="btn w-full px-6 py-3 bg-purple text-white border-purple hover:bg-purple/[0.85]">
+                    Change Password
+                </button>
+                <button type="submit" id="signInBtn" class="btn w-full px-6 py-3 bg-purple text-white border-purple hover:bg-purple/[0.85]">
+                    Sign In
+                </button>
+            </div>
+        </form>
+
+
+    </div>
+</div>
+<!-- End Main Content -->
+@section scripts{
+    <script src="~/assets/js/main.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        var validateUserUrl = '@Url.Action("ValidateUser", "Authentication")';
+
+        document.getElementById("loginForm").addEventListener("submit", function (event) {
+            event.preventDefault();
+
+            let userId = document.getElementById("userId").value;
+            let userPassword = document.getElementById("userPassword").value;
+
+            console.log("ID:", userId);
+            console.log("Password:", userPassword);
+
+            validateUserLogin(userId, userPassword)
+                .done(function (response) {
+                    if (response.success) {
+                        sessionStorage.setItem("userId", userId); 
+                        alert("Login Berhasil!");
+                        window.location.href = "/dashboard"; 
+                    } else {
+                        alert("Login Gagal! ID atau Password salah.");
+                    }
+                })
+                .fail(function () {
+                    alert("Terjadi kesalahan, coba lagi!");
+                });
+        });
+
+
+
+        function validateUserLogin(userId, userPassword) {
+            return $.ajax({
+                url: validateUserUrl,
+                type: "POST",
+                contentType: "application/json",
+                data: JSON.stringify({ Employee_ID: userId, Password: userPassword })
+            });
+        }
+
+
+
+    </script>
+}

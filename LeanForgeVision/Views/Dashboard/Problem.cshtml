@@ -1,0 +1,517 @@
+﻿
+@{
+    ViewBag.Title = "LeanForge Vision";
+    ViewBag.pTitle = "Problem Dashboard";
+    ViewBag.xData = "dashboard";
+    ViewBag.ActiveItem = "problem";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<!-- Start All Card -->
+<div class="flex flex-col gap-4 min-h-[calc(100vh-212px)]">
+    <div class="grid w-full grid-cols-1 gap-4 lg:grid-cols-1 2xl:grid-cols-3">
+        <div class="flex items-center justify-between gap-6 p-5 bg-white border rounded dark:bg-darklight dark:border-darkborder border-black/10">
+            <div>
+                <span id="percentageTotalOrdersPlannedYesterdayAndToday" class="p-1 text-sm leading-none rounded-md bg-info/20 text-info">Loading...</span>
+                <p class="text-base dark:text-white/80">Daily Planned</p>
+                <div>
+                    <h4 id="totalOrdersPlanned" class="text-2xl font-semibold text-black dark:text-white">
+                        Loading...
+                    </h4>
+
+                </div>
+
+                <p class="text-muted">Today</p>
+            </div>
+            <div>
+                <div id="chartTotalOrdersPlannedWeekly" dir="ltr"></div>
+            </div>
+        </div>
+        <div class="flex items-center justify-between gap-6 p-5 bg-white border rounded dark:bg-darklight dark:border-darkborder border-black/10">
+            <div>
+                <span id="percentageTotalToySortedYesterdayAndToday" class="p-1 text-sm leading-none rounded-md bg-info/20 text-info">Loading...</span>
+                <p class="text-base dark:text-white/80">Processed</p>
+                <div>
+                    <h4 id="totalOrdersProcessed" class="text-2xl font-semibold text-black dark:text-white">
+                        Loading...
+                    </h4>
+
+                </div>
+                <p class="mt-3 mb-0 text-muted">Goods</p>
+            </div>
+            <div>
+                <div id="chartTotalSortedWeekly" dir="ltr"></div>
+            </div>
+        </div>
+        <div class="flex items-center justify-between gap-6 p-5 bg-white border rounded dark:bg-darklight dark:border-darkborder border-black/10">
+            <div>
+                <span id="percentageTotalIssuesYesterdayAndToday" class="p-1 text-sm leading-none rounded-md bg-success/20 text-success">%</span>
+                <p class="text-base dark:text-white/80">Issues</p>
+
+                <h4 id="totalIssuesToday" class="text-2xl font-semibold text-black dark:text-white">
+                    Loading...
+                </h4>
+                <p class="text-muted">Today</p>
+            </div>
+            <div>
+                <div id="chartTotalProblemWeekly" dir="ltr"></div>
+            </div>
+        </div>
+    </div>
+    <div class="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-4">
+        <div class="gap-6 p-5 bg-white border rounded dark:bg-darklight dark:border-darkborder md:col-span-2 xl:col-span-2 border-black/10">
+            <div class="flex items-center justify-between gap-4 mb-4">
+                <h2 class="text-base font-semibold text-black dark:text-white/80">Top 3 Monthly Problem Overview</h2>
+               
+            </div>
+            <div>
+                <div id="top3MonthlyIssues" class="-ml-4" dir="ltr"></div>
+            </div>
+        </div>
+        <div class="p-5 bg-white border rounded border-black/10 dark:bg-darklight dark:border-darkborder">
+            <h2 class="mb-4 text-base font-semibold text-black capitalize dark:text-white/80">Top Categories Problem</h2>
+
+            <div id="topProblemCharts" dir="ltr"></div>
+        </div>
+        <div class="gap-6 p-5 bg-white border rounded dark:bg-darklight dark:border-darkborder border-black/10">
+            <h2 class="mb-4 text-base font-semibold text-black capitalize dark:text-white/80">Frequent Issues</h2>
+            <div id="chartFrequentIssuesGate" dir="ltr"></div>
+        </div>
+    </div>
+    <div class="grid grid-cols-1 gap-4 md:grid-cols-12">
+        <div class="col-span-12 gap-6 p-5 bg-white border rounded 2xl:col-span-9 dark:bg-darklight dark:border-darkborder border-black/10">
+            <div class="flex items-center gap-3 mb-4">
+                <h2 class="text-base font-semibold text-black capitalize dark:text-white/80 grow">Issue Tracker</h2>
+                <a href="#" class="px-3 py-1.5 rounded-md text-xs border border-black/20 dark:border-darkborder text-muted"><i class="align-bottom ltr:mr-1 rtl:ml-1 ri-filter-line"></i> Filters</a>
+            </div>
+            <div class="overflow-auto">
+                <table class="min-w-[640px] w-full">
+                    <thead>
+                        <tr class="ltr:text-left rtl:text-right">
+                            <th>Schedule Detail ID</th>
+                            <th>Toy Number</th>
+                            <th>Description</th>
+                            <th>Type Of Problem</th>
+                            <th>Total Problem</th>
+                            <th>Report By</th>
+
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="text-muted">
+                            <td><a href="#!" class="capitalize">HKG48-N7C5</a></td>
+                            <td>Alfa Romero GTV6 3.0</td>
+                            <td>Inventory & Packaging Issues</td>
+                            <td>258</td>
+                            <td>Kevin Bujani</td>
+                            <td>
+                            </td>
+                        </tr>
+
+                    </tbody>
+                </table>
+            </div>
+            <div class="flex items-center gap-3 mt-4">
+                <p id="paginationStatus" class="text-muted grow"></p>
+                <ul class="inline-flex items-center gap-1 shrink-0">
+                    <li><button type="button" class="flex justify-center px-2.5 py-1 rounded transition text-muted hover:text-purple border border-black/10 hover:border-purple dark:border-darkborder dark:text-darkmuted dark:hover:text-purple dark:hover:border-purple">First</button></li>
+                    <li><button type="button" class="flex justify-center px-2.5 py-1 rounded transition text-muted hover:text-purple border border-black/10 hover:border-purple dark:border-darkborder dark:text-darkmuted dark:hover:text-purple dark:hover:border-purple">Prev</button></li>
+                    <li><button type="button" class="flex justify-center px-2.5 py-1 rounded transition text-muted hover:text-purple border border-black/10 hover:border-purple dark:border-darkborder dark:text-darkmuted dark:hover:text-purple dark:hover:border-purple">1</button></li>
+                    <li><button type="button" class="flex justify-center px-2.5 py-1 rounded transition text-purple border border-purple">2</button></li>
+                    <li><button type="button" class="flex justify-center px-2.5 py-1 rounded transition text-muted hover:text-purple border border-black/10 hover:border-purple dark:border-darkborder dark:text-darkmuted dark:hover:text-purple dark:hover:border-purple">3</button></li>
+                    <li><button type="button" class="flex justify-center px-2.5 py-1 rounded transition text-muted hover:text-purple border border-black/10 hover:border-purple dark:border-darkborder dark:text-darkmuted dark:hover:text-purple dark:hover:border-purple">Next</button></li>
+                    <li><button type="button" class="flex justify-center px-2.5 py-1 rounded transition text-muted hover:text-purple border border-black/10 hover:border-purple dark:border-darkborder dark:text-darkmuted dark:hover:text-purple dark:hover:border-purple">Last</button></li>
+                </ul>
+            </div>
+        </div>
+        <!--<div class="col-span-12 gap-6 p-5 bg-white border rounded dark:bg-darklight dark:border-darkborder border-black/10 2xl:col-span-3">
+        <h2 class="mb-4 text-base font-semibold text-black capitalize dark:text-white/80">Today's Problem</h2>
+        <div id="todayIssuesContainer" class="flex flex-col gap-3" style="max-height: 450px; overflow-y: auto;">-->
+        <!-- Problem cards will be injected here -->
+        <!--</div>
+        </div>-->
+        <div class="col-span-12 gap-6 p-5 bg-white border rounded dark:bg-darklight dark:border-darkborder border-black/10 2xl:col-span-3">
+            <h2 class="mb-4 text-base font-semibold text-black capitalize dark:text-white/80">Today's Problem'</h2>
+            <div id="todayIssuesContainer" class="flex flex-col gap-3">
+
+
+            </div>
+        </div>
+
+    </div>
+</div>
+<!-- End All Card -->
+
+@section scripts{
+
+    <script src="~/assets/libs/apexcharts/apexcharts.min.js"></script>
+    <script src="~/assets/js/main.js"></script>
+
+    <script>
+        var top3MonthlyIssuesUrl = '@Url.Action("GetTop3MonthlyProblems", "Problem")';
+        var problemReportCountsUrl = '@Url.Action("GetProblemReportCounts", "Problem")';
+        var problemGateIssuesUrl = '@Url.Action("GetGateProblemReports", "Problem")';
+        var problemTodayUrl = '@Url.Action("GetTodayProblemReports", "Problem")';
+        var problemDataTableUrl = '@Url.Action("GetProblemReportsPaged","Problem")';
+
+        $(document).ready(function () {
+            renderTop3MonthlyIssues();
+            renderTopProblemCategories();
+            renderFrequentGateIssues();
+            fetchAndDisplayTodayProblems();
+            fetchProblemReports(); // Default page 1, pageSize 10
+        });
+
+        function refreshData() {
+            renderTop3MonthlyIssues();
+            renderTopProblemCategories();
+            renderFrequentGateIssues();
+            fetchAndDisplayTodayProblems();
+            fetchProblemReports();
+        }
+
+        // Fungsi untuk menghasilkan warna unik secara acak
+        function generateUniqueColor() {
+            const letters = '0123456789ABCDEF';
+            let color = '#';
+            for (let i = 0; i < 6; i++) {
+                color += letters[Math.floor(Math.random() * 16)];
+            }
+            return color;
+        }
+        const problemColorMap = {}; // Simpan warna berdasarkan nama Problem
+
+        function getColorForProblem(problemName) {
+            if (!problemColorMap[problemName]) {
+                problemColorMap[problemName] = generateUniqueColor();
+            }
+            return problemColorMap[problemName];
+        }
+
+        var chart;
+
+        function renderTop3MonthlyIssues() {
+            $.ajax({
+                url: top3MonthlyIssuesUrl,
+                method: 'GET',
+                success: function (data) {
+                    const months = [];
+                    const problemGroups = {};
+                    const rawToFormattedMonth = {};
+
+                    data.forEach(item => {
+                        if (!rawToFormattedMonth[item.Month]) {
+                            const [year, month] = item.Month.split('-');
+                            const date = new Date(year, month - 1);
+                            const formatted = date.toLocaleString('default', { month: 'long', year: 'numeric' });
+                            rawToFormattedMonth[item.Month] = formatted;
+                            months.push(formatted);
+                        }
+                    });
+
+                    data.forEach(item => {
+                        if (!problemGroups[item.Problem_Name]) {
+                            problemGroups[item.Problem_Name] = {};
+                        }
+                        const formattedMonth = rawToFormattedMonth[item.Month];
+                        problemGroups[item.Problem_Name][formattedMonth] = item.Total;
+
+                        // Tetapkan warna konsisten
+                        getColorForProblem(item.Problem_Name);
+                    });
+
+                    const series = Object.keys(problemGroups).map(problemName => {
+                        const monthlyData = months.map(month => problemGroups[problemName][month] || 0);
+                        return {
+                            name: problemName,
+                            data: monthlyData,
+                            color: problemColorMap[problemName]
+                        };
+                    });
+
+                    var options = {
+                        series: series,
+                        chart: {
+                            type: 'bar',
+                            height: 270
+                        },
+                        plotOptions: {
+                            bar: {
+                                horizontal: false,
+                                columnWidth: '55%',
+                                endingShape: 'rounded'
+                            }
+                        },
+                        dataLabels: {
+                            enabled: false
+                        },
+                        stroke: {
+                            show: true,
+                            width: 2,
+                            colors: ['transparent']
+                        },
+                        xaxis: {
+                            categories: months
+                        },
+                        fill: {
+                            opacity: 1
+                        },
+                        tooltip: {
+                            y: {
+                                formatter: function (val) {
+                                    return val + " Issues";
+                                }
+                            }
+                        }
+                    };
+
+                    if (chart) {
+                        // Jika chart sudah ada, kita update datanya
+                        chart.updateSeries(series);
+                    } else {
+                        // Jika chart belum ada, kita buat chart baru
+                        chart = new ApexCharts(document.querySelector("#top3MonthlyIssues"), options);
+                        chart.render();
+                    }
+                },
+                error: function () {
+                    $("#top3MonthlyIssues").html("<p class='text-red-500'>Failed to load chart data.</p>");
+                }
+            });
+        }
+
+
+        function renderTopProblemCategories() {
+            $.ajax({
+                url: problemReportCountsUrl,
+                method: 'GET',
+                success: function (data) {
+                    if (!data || data.length === 0) {
+                        $("#topProblemCharts").html("<p class='text-gray-500'>No data available.</p>");
+                        return;
+                    }
+
+                    const labels = data.map(item => item.Problem_Name);
+                    const values = data.map(item => item.TotalReports);
+
+                    // Buat warna berdasarkan nama problem
+                    const colors = labels.map(name => getColorForProblem(name));
+
+                    const options = {
+                        series: values,
+                        chart: {
+                            height: 320,
+                            type: "donut",
+                        },
+                        colors: colors,
+                        labels: labels,
+                        legend: {
+                            position: 'bottom'
+                        },
+                        tooltip: {
+                            y: {
+                                formatter: function (val) {
+                                    return val + " Reports";
+                                }
+                            }
+                        }
+                    };
+
+                    var chart = new ApexCharts(document.querySelector("#topProblemCharts"), options);
+                    chart.render();
+                },
+                error: function () {
+                    $("#topProblemCharts").html("<p class='text-red-500'>Failed to load top problem categories.</p>");
+                }
+            });
+        }
+
+        function renderFrequentGateIssues() {
+            $.ajax({
+                url: problemGateIssuesUrl,
+                method: 'GET',
+                success: function (data) {
+                    if (!data || data.length === 0) {
+                        $("#chartFrequentIssuesGate").html("<p class='text-gray-500'>No data available.</p>");
+                        return;
+                    }
+
+                    const labels = data.map(item => item.Gate_Name);
+                    const values = data.map(item => item.TotalReports);
+
+                    // Auto generate colors jika melebihi 3
+                    const defaultColors = ["#6a69f5", "#50cd89", "#323a46", "#f1416c", "#ffa800", "#009ef7"];
+                    const colors = labels.map((_, idx) => defaultColors[idx % defaultColors.length]);
+
+                    const options = {
+                        series: values,
+                        chart: {
+                            height: 320,
+                            type: "donut",
+                        },
+                        colors: colors,
+                        labels: labels,
+                        legend: {
+                            position: 'bottom'
+                        },
+                        tooltip: {
+                            y: {
+                                formatter: function (val) {
+                                    return val + " Reports";
+                                }
+                            }
+                        }
+                    };
+
+                    const chart = new ApexCharts(document.querySelector("#chartFrequentIssuesGate"), options);
+                    chart.render();
+                },
+                error: function () {
+                    $("#chartFrequentIssuesGate").html("<p class='text-red-500'>Failed to load chart data.</p>");
+                }
+            });
+        }
+
+        function fetchAndDisplayTodayProblems() {
+            $.ajax({
+                url: problemTodayUrl,
+                method: 'GET',
+                success: function (data) {
+                    // Clear existing content if needed
+                    $("#todayIssuesContainer").empty();
+
+                    // Check if there is data
+                    if (data && data.length > 0) {
+                        data.forEach(function (item) {
+                            // Create new HTML structure for each problem
+                            var problemCard = `
+                        <div class="flex gap-2 p-3 bg-gray-100 rounded-md dark:bg-darkborder/50">
+                           <img src="@Url.Content("~/assets/images/Container1.png")" alt="" class="size-10 shrink-0">
+
+                            <div class="overflow-hidden grow">
+                                <h6 class="mb-1 text-black capitalize truncate dark:text-white/80">
+                                    <a href="#!">${item.Problem_Name}</a>
+                                </h6>
+                                <ul class="flex items-center gap-3 text-xs text-muted">
+                                    <li>TimeStamp : ${item.Report_Time}</li>
+                                    <li>Head ID : ${item.DailyPlanHead_ID}</li>
+                                </ul>
+                            </div>
+                            <h6 class="font-bold text-black rtl:float-left ltr:float-right dark:text-white/80">${item.Gate_Name}</h6>
+                        </div>
+                    `;
+                            // Append the new problem card to the container
+                            $(".flex.flex-col.gap-3").append(problemCard);
+                        });
+                    } else {
+                        $(".flex.flex-col.gap-3").html("<p>No problems reported today.</p>");
+                    }
+                },
+                error: function () {
+                    $(".flex.flex-col.gap-3").html("<p class='text-red-500'>Failed to load today's problem reports.</p>");
+                }
+            });
+        }
+
+        function fetchProblemReports(page = 1, pageSize = 10) {
+            $.ajax({
+                url: problemDataTableUrl,
+                type: 'GET',
+                data: { page, pageSize },
+                success: function (response) {
+                    renderProblemReports(response.data);
+                    renderPagination(response.totalPages, response.currentPage);
+                    updatePaginationStatus(response.currentPage, response.pageSize, response.totalRecords);
+                },
+                error: function () {
+                    console.error('Failed to fetch problem reports.');
+                }
+            });
+        }
+
+        function updatePaginationStatus(page, pageSize, total) {
+            if (typeof page !== 'number' || typeof pageSize !== 'number' || typeof total !== 'number') {
+                document.getElementById("paginationStatus").innerHTML = 'Invalid pagination data.';
+                return;
+            }
+
+            const start = (page - 1) * pageSize + 1;
+            let end = page * pageSize;
+            if (end > total) end = total;
+
+            const statusText = `Showing <b>${start.toString().padStart(2, '0')}</b> to <b>${end.toString().padStart(2, '0')}</b> of <b>${total.toString().padStart(2, '0')}</b> Results`;
+            document.getElementById("paginationStatus").innerHTML = statusText;
+        }
+
+
+        function renderProblemReports(data) {
+            const tbody = $('table tbody');
+            tbody.empty();
+
+            if (data.length === 0) {
+                tbody.append('<tr><td colspan="6" class="text-center text-muted">No data available.</td></tr>');
+                return;
+            }
+
+            data.forEach(item => {
+                const row = `
+            <tr class="text-muted">
+                <td>${item.DailyPlanDetail_ID}</td>
+                <td><a href="#!" class="capitalize">${item.Toy_Number}</a></td>
+                <td>${item.Toy_Description}</td>
+                <td>${item.Problem_Name || '-'}</td>
+                <td>${item.Report_Total}</td>
+                <td>${item.Reporter_Name}</td>
+            </tr>`;
+                tbody.append(row);
+            });
+        }
+
+        function renderPagination(totalPages, currentPage) {
+            const paginationContainer = $('ul.inline-flex');
+            paginationContainer.empty();
+
+            const createPageButton = (text, page, disabled = false, active = false) => {
+                return `<li>
+            <button type="button"
+                ${disabled ? 'disabled' : ''}
+                class="flex justify-center px-2.5 py-1 rounded transition 
+                    ${active ? 'text-purple border border-purple' : 'text-muted hover:text-purple border border-black/10 hover:border-purple'}">
+                ${text}
+            </button>
+        </li>`;
+            };
+
+            // First & Prev
+            paginationContainer.append(createPageButton('First', 1, currentPage === 1));
+            paginationContainer.append(createPageButton('Prev', currentPage - 1, currentPage === 1));
+
+            // Page numbers
+            for (let i = 1; i <= totalPages; i++) {
+                paginationContainer.append(createPageButton(i, i, false, i === currentPage));
+            }
+
+            // Next & Last
+            paginationContainer.append(createPageButton('Next', currentPage + 1, currentPage === totalPages));
+            paginationContainer.append(createPageButton('Last', totalPages, currentPage === totalPages));
+
+            // Event Binding
+            paginationContainer.find('button').not('[disabled]').on('click', function () {
+                const page = $(this).text();
+                let targetPage = currentPage;
+
+                if (page === 'First') targetPage = 1;
+                else if (page === 'Prev') targetPage = currentPage - 1;
+                else if (page === 'Next') targetPage = currentPage + 1;
+                else if (page === 'Last') targetPage = totalPages;
+                else targetPage = parseInt(page);
+
+                fetchProblemReports(targetPage);
+            });
+        }
+
+
+
+
+    </script>
+}

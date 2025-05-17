@@ -1,0 +1,195 @@
+/*
+Template Name: Sliced - Admin & Dashboard Template
+Author: SRBThemes
+Version: 2.3.0
+File: tailwind scss files
+*/
+
+
+@import "fonts/fonts";
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+.dropdown {
+  position: relative;
+
+  ul {
+  position: absolute;
+  z-index: 50;
+  margin-top: 0.125rem;
+  min-width: 170px;
+  border-radius: 0.25rem;
+  border-width: 1px;
+  border-color: rgb(50 58 70 / 0.1);
+  --tw-bg-opacity: 1;
+  background-color: rgb(255 255 255 / var(--tw-bg-opacity));
+  padding: 0px;
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+  
+  li{
+      a,button, div{
+          display: flex;
+          align-items: center;
+          padding-left: 1rem;
+          padding-right: 1rem;
+          padding-top: 0.5rem;
+          padding-bottom: 0.5rem;
+      }
+  }
+
+}
+}
+
+// button sidebar
+
+.btn-white {
+  display: inline-block;
+  border-radius: 0.375rem;
+  --tw-bg-opacity: 1;
+  background-color: rgb(255 255 255 / var(--tw-bg-opacity));
+  padding-top: 0.625rem;
+  padding-bottom: 0.625rem;
+  padding-left: 1.25rem;
+  padding-right: 1.25rem;
+  font-weight: 500;
+  transition-property: all;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 300ms;
+}
+
+.btn-white:hover {
+  background-color: rgb(255 255 255 / 0.9);
+}
+
+
+//   scrollbar
+
+::-webkit-scrollbar {
+  height: 0.375rem;
+  width: 0.375rem;
+  background-color: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: rgb(50 58 70 / 0.1);
+}
+
+/* 4. LAYOUT */
+
+.main-container .main-content {
+  transition-property: all;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 300ms;
+}
+
+@media (min-width: 1024px) {
+  .main-container .main-content {
+    margin-inline-start: 240px;
+  }
+
+  .vertical.toggle-sidebar .main-container .main-content:where([dir="ltr"], [dir="ltr"] *) {
+    margin-left: 72px;
+  }
+
+  .vertical.toggle-sidebar .main-container .main-content:where([dir="rtl"], [dir="rtl"] *) {
+    margin-right: 72px;
+  }
+}
+
+.vertical.toggle-sidebar .sidebar:hover .help-box ,
+  .vertical.toggle-sidebar .sidebar,
+  .detached .detached-img {
+  display: block;
+}
+
+.vertical .sidebar {
+  display: none;
+}
+
+@media (min-width: 1024px) {
+  .vertical .sidebar {
+    display: block;
+  }
+
+  .vertical.toggle-sidebar .sidebar {
+    width: 72px;
+  }
+}
+
+.vertical.toggle-sidebar .sidebar:hover {
+  width: 240px;
+}
+
+@media (min-width: 1024px) {
+  .vertical.toggle-sidebar .sidebar .sub-menu,
+  .vertical.toggle-sidebar .sidebar .nav-item a span,
+  .vertical.toggle-sidebar .sidebar .nav-item a .dropdown-icon,
+  .vertical.toggle-sidebar .sidebar h2 ,
+  .vertical.toggle-sidebar .sidebar .main-logo .logo,
+  .vertical.toggle-sidebar .sidebar:hover .main-logo .logo-icon,
+  .vertical.toggle-sidebar .sidebar .help-box {
+    display: none;
+  }
+}
+
+.vertical.toggle-sidebar.dark .sidebar:hover .main-logo .logo.dark-logo,
+  .vertical.toggle-sidebar .sidebar:hover .main-logo .logo.light-logo {
+  display: none;
+}
+
+.vertical.toggle-sidebar.dark .sidebar:hover .main-logo .logo.light-logo {
+  display: block;
+}
+
+@media (min-width: 1024px) {
+  .vertical.toggle-sidebar .sidebar:hover .nav-item a span,
+  .vertical.toggle-sidebar .sidebar:hover h2 ,
+  .vertical.toggle-sidebar .sidebar:hover .sub-menu ,
+  .vertical.toggle-sidebar .sidebar .main-logo .logo-icon,
+  .vertical.toggle-sidebar .sidebar:hover .main-logo .logo {
+    display: block;
+  }
+
+  .vertical.toggle-sidebar .sidebar .nav-item a {
+    justify-content: center;
+  }
+
+  .vertical.toggle-sidebar .sidebar:hover .nav-item a {
+    justify-content: start;
+  }
+
+  .vertical.toggle-sidebar .sidebar:hover .nav-item a .dropdown-icon {
+    display: flex;
+  }
+
+  .vertical.toggle-sidebar .sidebar ul {
+    row-gap: 1rem;
+  }
+
+  .vertical.toggle-sidebar .sidebar:hover ul {
+    gap: 0.25rem;
+  }
+}
+
+
+html[data-mode="dark"]{
+  .dt-paging.paging_full_numbers .pagination a{
+    background-color: #000;
+    color: #fff;
+  }
+  .dt-container .dt-search input{
+    background-color: #000;
+  }
+  .dt-container .dt-length select{
+    background-color: #000;
+    color: #fff;
+  }
+  .dt-container .dt-buttons .dt-button{
+    background-color: #000;
+    color: #fff;
+  }
+}
